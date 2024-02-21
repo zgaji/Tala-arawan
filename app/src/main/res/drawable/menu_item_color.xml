@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Calendar -->
+    <!-- Selected state -->
+    <item android:drawable="@drawable/ic_calendar" android:state_selected="true" android:tint="@color/purple"/>
+    <!-- Pressed state -->
+    <item android:drawable="@drawable/ic_calendar" android:state_pressed="true" android:tint="@color/purple"/>
+    <!-- Default state -->
+    <item android:drawable="@drawable/ic_calendar" android:tint="@color/purple"/>
+
+
+    <!-- Alarm -->
+    <!-- Selected state -->
+    <item android:drawable="@drawable/ic_alarm" android:state_selected="true" android:tint="@color/purple"/>
+    <!-- Pressed state -->
+    <item android:drawable="@drawable/ic_alarm" android:state_pressed="true" android:tint="@color/purple"/>
+    <!-- Default state -->
+    <item android:drawable="@drawable/ic_alarm" android:tint="@color/purple"/>
+
+</selector>

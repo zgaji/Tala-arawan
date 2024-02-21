@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CreateTask">
+
+    <RelativeLayout
+        android:id="@+id/createTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">>
+
+        <!-- Cancel/Back Button -->
+        <TextView
+            android:id="@+id/cancelBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Cancel"
+            android:textSize="16dp"
+            android:textColor="@color/purple"/>
+
+        <!-- New Reminder -->
+        <TextView
+            android:id="@+id/newReminderTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="New Reminder"
+            android:textStyle="bold"
+            android:textSize="17dp"/>
+
+        <!-- Add Button -->
+        <TextView
+            android:id="@+id/addBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Add"
+            android:textSize="16dp"
+            android:textColor="@color/purple"/>
+
+        <!-- CardView for Title and Notes -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/newReminderTV"
+            android:layout_above="@id/bottom_navigation"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="13dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Title EditText -->
+                <EditText
+                    android:id="@+id/titleEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:textSize="20sp"
+                    android:background="@null"
+                    />
+
+                <!-- Line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginTop="8dp"/>
+
+                <!-- Notes EditText within a ScrollView -->
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp">
+
+                    <EditText
+                        android:id="@+id/notesEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Notes"
+                        android:minLines="5"
+                        android:maxLines="10"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="4dp"
+                        android:background="@null"
+                        android:gravity="top|start"/>
+                </ScrollView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/bottom_navigation"
+            android:layout_below="@id/cardView" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bottom_navigation_menu"
+            app:itemIconTint="@drawable/menu_item_color"/>
+
+    </RelativeLayout>
+
+</FrameLayout>
+
+

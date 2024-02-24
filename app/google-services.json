@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "770883856229",
+    "firebase_url": "https://tala-arawan-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tala-arawan",
+    "storage_bucket": "tala-arawan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770883856229:android:c1ca3c6961c9a6a49c638c",
+        "android_client_info": {
+          "package_name": "com.example.test3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiNefOxqhy7IaAx_MZPFMGeuTWgEjt2O8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

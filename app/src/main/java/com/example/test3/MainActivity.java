@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
                 bottomSheetDialog.setContentView(R.layout.activity_create_task);
+
                 bottomSheetDialog.show();
             }
         });

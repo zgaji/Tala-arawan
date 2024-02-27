@@ -2,6 +2,9 @@ package com.example.test3;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,7 +19,13 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView smartListRecyclerView;
+    private SmartListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,18 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
 
+
+        smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
+        smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        // Sample data
+        List<SmartListData> dataList = new ArrayList<>();
+        dataList.add(new SmartListData("All", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
+        dataList.add(new SmartListData("Scheduled", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
+        dataList.add(new SmartListData("Favorites", "3", R.drawable.ic_calendar, Color.parseColor("#afffca")));
+
+        adapter = new SmartListAdapter(dataList);
+        smartListRecyclerView.setAdapter(adapter);
 
         add_noteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,11 +64,10 @@ public class MainActivity extends AppCompatActivity {
                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        bottomSheetDialog.dismiss(); // Close the dialog
+                        bottomSheetDialog.dismiss();
                     }
                 });
 
-                // Set TextChangedListener to title EditText to enable/disable add button
                 if (titleEditText != null && addBtn != null) {
                     titleEditText.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -56,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            // Enable/disable add button based on text input
+
                             if (s.toString().trim().isEmpty()) {
                                 addBtn.setEnabled(false);
-                                addBtn.setTextColor(Color.parseColor("#abaab0")); // Change text color to gray
+                                addBtn.setTextColor(Color.parseColor("#abaab0"));
                             } else {
                                 addBtn.setEnabled(true);
-                                addBtn.setTextColor(Color.parseColor("#C57cff")); // Change text color back to black
+                                addBtn.setTextColor(Color.parseColor("#C57cff"));
                             }
                         }
 
@@ -70,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                         public void afterTextChanged(Editable s) {
 
                         }
-
 
                     });
                 }

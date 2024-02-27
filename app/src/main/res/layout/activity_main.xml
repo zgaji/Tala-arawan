@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/martin"
     tools:context=".MainActivity">
 
     <!-- Title -->
@@ -15,7 +14,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Tala-arawan"
-        android:textColor="@color/t_white"
+        android:textColor="@color/purple"
+        android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -38,7 +38,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:tint="@color/white"
+            app:tint="@color/hint"
             android:src="@drawable/ic_search"
             android:layout_marginEnd="8dp"
             android:contentDescription="text"/>
@@ -51,8 +51,8 @@
             android:imeOptions="actionDone"
             android:inputType="text"
             android:hint="Search"
-            android:textColorHint="@color/t_white"
-            android:textColor="@color/white"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
             android:textSize="13dp"
             android:autofillHints="no" />
 

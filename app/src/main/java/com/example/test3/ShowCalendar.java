@@ -29,8 +29,10 @@ public class ShowCalendar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_calendar);
 
-        CalendarView calendarView = findViewById(R.id.calendarView);
+        //CALENDAR VIEW
+        //CalendarView calendarView = findViewById(R.id.calendarView);
         ImageView backbtn_calendar = findViewById(R.id.backbtn_calendar);
+
 
         backbtn_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +40,8 @@ public class ShowCalendar extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
     }
 }

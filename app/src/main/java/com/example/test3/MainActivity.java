@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView cancelBtn = bottomSheetDialog.findViewById(R.id.cancelBTN);
                 EditText titleEditText = bottomSheetDialog.findViewById(R.id.titleEditText);
                 ImageView datebtn_createtask = bottomSheetDialog.findViewById(R.id.datebtn_createtask);
+                TextView datetxt_createtask = bottomSheetDialog.findViewById(R.id.datetxt_createtask);
 
 
                 if (titleEditText != null) {
@@ -55,11 +58,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                //CALENDAR VIEW
+//                datebtn_createtask.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(MainActivity.this, ShowCalendar.class);
+//                        startActivity(intent);
+//                    }
+//                });
+
+                //DATE PICKER
                 datebtn_createtask.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, ShowCalendar.class);
-                        startActivity(intent);
+                        Calendar calendar = Calendar.getInstance();
+                        int year = calendar.get(Calendar.YEAR);
+                        int month = calendar.get(Calendar.MONTH);
+                        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+                                        Calendar c = Calendar.getInstance();
+                                        c.set(Calendar.YEAR, year);
+                                        c.set(Calendar.MONTH, month);
+                                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                        String currentdate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
+                                        datetxt_createtask.setText(currentdate);
+
+                                    }
+                                }, year, month, dayOfMonth);
+
+                        datePickerDialog.show();
                     }
                 });
 

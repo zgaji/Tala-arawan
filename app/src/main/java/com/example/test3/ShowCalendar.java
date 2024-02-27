@@ -1,16 +1,26 @@
 package com.example.test3;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.CalendarView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+
 
 public class ShowCalendar extends AppCompatActivity {
 
@@ -19,31 +29,16 @@ public class ShowCalendar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_calendar);
 
-//        List<EventDay> events = new ArrayList<>();
-//
-//        Calendar calendar = Calendar.getInstance();
-//        events.add(new EventDay(calendar, R.drawable.ic_calendar, Color.parseColor("#228B22")));
-//
-//        CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
-//        calendarView.setEvents(events);
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        ImageView backbtn_calendar = findViewById(R.id.backbtn_calendar);
 
-//        public List<EventDay> getHighlitedDays() {
-//            List<EventDay> events = new ArrayList<>();
-//
-//            for(int i = 0; i < tasks.size(); i++) {
-//                Calendar calendar = Calendar.getInstance();
-//                String[] items1 = tasks.get(i).getDate().split("-");
-//                String dd = items1[0];
-//                String month = items1[1];
-//                String year = items1[2];
-//
-//                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dd));
-//                calendar.set(Calendar.MONTH, Integer.parseInt(month) - 1);
-//                calendar.set(Calendar.YEAR, Integer.parseInt(year));
-//                events.add(new EventDay(calendar, R.drawable.dot));
-//            }
-//            return events;
-//        }
+        backbtn_calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 }
+

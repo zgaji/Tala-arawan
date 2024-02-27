@@ -44,7 +44,7 @@
             android:layout_marginTop="16dp"
             android:text="Add"
             android:textSize="16dp"
-            android:textColor="@color/purple"/>
+            android:textColor="@color/hint"/>
 
         <!-- CardView for Title and Notes -->
         <androidx.cardview.widget.CardView

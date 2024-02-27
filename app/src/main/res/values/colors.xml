@@ -20,6 +20,8 @@
 
     <color name="searchbar">#e4e3e9</color>
     <color name="hint">#abaab0</color>
+    <color name="bg">#f0eff5</color>
+
 
 
 </resources>

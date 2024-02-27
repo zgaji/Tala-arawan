@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 EditText titleEditText = bottomSheetDialog.findViewById(R.id.titleEditText);
                 ImageView datebtn_createtask = bottomSheetDialog.findViewById(R.id.datebtn_createtask);
                 TextView datetxt_createtask = bottomSheetDialog.findViewById(R.id.datetxt_createtask);
+                ImageView alarmbtn_createtask = bottomSheetDialog.findViewById(R.id.alarmbtn_createtask);
+                TextView alarmtxt_createtask = bottomSheetDialog.findViewById(R.id.alarmtxt_createtask);
 
 
                 if (titleEditText != null) {
@@ -92,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
                                 }, year, month, dayOfMonth);
 
                         datePickerDialog.show();
+                    }
+                });
+
+                //ALARM PICKER
+                alarmbtn_createtask.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
                     }
                 });
 

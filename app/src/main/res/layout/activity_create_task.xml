@@ -50,7 +50,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="500dp"
             android:layout_below="@id/newReminderTV"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -77,14 +77,14 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:background="@android:color/darker_gray" />
 
                 <!-- Notes EditText within a ScrollView -->
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="12dp">
 
                     <EditText
                         android:id="@+id/notesEditText"
@@ -100,40 +100,40 @@
 
                 </ScrollView>
 
-                <!-- Line -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@android:color/darker_gray" />
-
-                <!-- Calendar -->
                 <EditText
                     android:id="@+id/calendarEditText"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:background="@null"
-                    android:hint="Due Date"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:hint="  Due Date"
                     android:textSize="20sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:background="@android:color/darker_gray" />
 
-                <!-- Alarm -->
                 <EditText
                     android:id="@+id/alarmEditText"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:background="@null"
-                    android:hint="Alarm"
+                    android:drawableStart="@drawable/ic_alarm"
+                    android:hint="  Alarm"
                     android:textSize="20sp" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/darker_gray" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 

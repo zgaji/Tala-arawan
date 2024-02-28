@@ -77,9 +77,6 @@
                     android:textSize="20sp" />
 
                 <!-- Line -->
-
-
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -129,6 +126,7 @@
                         android:layout_toEndOf="@id/datebtn_createtask"
                         android:gravity="start|center_vertical"
                         android:hint="   Click icon to set Due Date"
+                        android:textColor="@color/martinique"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -183,17 +181,17 @@
                         android:layout_marginLeft="45dp"
                         android:gravity="center"
                         android:text="Set Alarm"
-                        android:textColor="@color/hint"
+                        android:textColor="@color/melrose"
                         android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/cancelalarmbtn"
                         android:layout_width="130dp"
                         android:layout_height="40dp"
-                        android:gravity="center|center_vertical"
                         android:layout_toEndOf="@id/setalarmbtn"
+                        android:gravity="center|center_vertical"
                         android:text="Cancel Alarm"
-                        android:textColor="@color/hint"
+                        android:textColor="@color/martinique"
                         android:textSize="16dp" />
 
                 </RelativeLayout>

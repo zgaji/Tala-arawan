@@ -51,11 +51,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         createNotificationChannel();
-
 
         setContentView(R.layout.activity_main);
 
@@ -118,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
                                         datetxt_createtask.setText(currentdate);
 
+                                        // Set the date components of the calendar object
+                                        calendar.set(Calendar.YEAR, year);
+                                        calendar.set(Calendar.MONTH, month);
+                                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                                     }
                                 }, year, month, dayOfMonth);
 
@@ -142,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 if (timePicker.getHour() > 12){
                                     alarmtxt_createtask.setText(
-                                            String.format("%02d", (timePicker.getHour()-12))+":"+ String.format("%02d", timePicker.getMinute())+ "PM"
-                                    );
+                                            String.format("%02d", (timePicker.getHour()-12))+":"+ String.format("%02d", timePicker.getMinute())+ "PM");
                                 } else {
                                     alarmtxt_createtask.setText(timePicker.getHour()+":"+ timePicker.getMinute()+ "AM");
                                 }
@@ -161,12 +162,22 @@ public class MainActivity extends AppCompatActivity {
                 setalarmbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-                        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0,intent, PendingIntent.FLAG_IMMUTABLE);
+                        if (calendar != null) {
+                            // Set the alarm using the calendar object
+                            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                            Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-                        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-                        Toast.makeText(MainActivity.this,"Alarm Set", Toast.LENGTH_SHORT).show();
+                            // Use setExact() for precise timing
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                            } else {
+                                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                            }
+                            Toast.makeText(MainActivity.this, "Alarm Set", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Please set both date and time", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -183,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
 
 
                 // Set TextChangedListener to title EditText to enable/disable add button
@@ -213,9 +226,6 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
                 bottomSheetDialog.show();
-
-
-
             }
         });
 

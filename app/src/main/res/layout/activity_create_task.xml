@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/createTask"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="650dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">>
 
         <!-- Cancel/Back Button -->
@@ -20,8 +20,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Cancel"
-            android:textSize="16dp"
-            android:textColor="@color/purple"/>
+            android:textColor="@color/purple"
+            android:textSize="16dp" />
 
         <!-- New Reminder -->
         <TextView
@@ -31,8 +31,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="New Reminder"
-            android:textStyle="bold"
-            android:textSize="17dp"/>
+            android:textSize="17dp"
+            android:textStyle="bold" />
 
         <!-- Add Button -->
         <TextView
@@ -40,23 +40,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:text="Add"
-            android:textSize="16dp"
-            android:textColor="@color/hint"/>
+            android:textColor="@color/hint"
+            android:textSize="16dp" />
 
         <!-- CardView for Title and Notes -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="match_parent"
             android:layout_below="@id/newReminderTV"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="13dp">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,15 +66,20 @@
                 android:padding="16dp">
 
                 <!-- Title EditText -->
+
                 <EditText
                     android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="Title"
+                    android:gravity="start"
+                    android:hint="  Title"
                     android:textSize="20sp" />
 
                 <!-- Line -->
+
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -81,6 +87,7 @@
                     android:background="@android:color/darker_gray" />
 
                 <!-- Notes EditText within a ScrollView -->
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
@@ -92,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="top|start"
-                        android:hint="Notes"
+                        android:hint="  Notes"
                         android:maxLines="10"
                         android:minLines="5"
                         android:paddingLeft="4dp"
@@ -100,15 +107,30 @@
 
                 </ScrollView>
 
-                <EditText
-                    android:id="@+id/calendarEditText"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@null"
-                    android:drawableStart="@drawable/ic_calendar"
-                    android:hint="  Due Date"
-                    android:textSize="20sp" />
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/datebtn_createtask"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/ic_calendar" />
+
+                    <TextView
+                        android:id="@+id/datetxt_createtask"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toEndOf="@id/datebtn_createtask"
+                        android:gravity="start|center_vertical"
+                        android:hint="   Click icon to set Due Date"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -116,25 +138,74 @@
                     android:layout_marginTop="12dp"
                     android:background="@android:color/darker_gray" />
 
-                <EditText
-                    android:id="@+id/alarmEditText"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@null"
-                    android:drawableStart="@drawable/ic_alarm"
-                    android:hint="  Alarm"
-                    android:textSize="20sp" />
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/alarmbtn_createtask"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/ic_alarm" />
+
+                    <TextView
+                        android:id="@+id/alarmtxt_createtask"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toEndOf="@id/alarmbtn_createtask"
+                        android:gravity="start|center_vertical"
+                        android:hint="   Click icon to set an Alarm"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="12dp"
                     android:background="@android:color/darker_gray" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/setalarmbtn"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="45dp"
+                        android:gravity="center"
+                        android:text="Set Alarm"
+                        android:textColor="@color/hint"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/cancelalarmbtn"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:gravity="center|center_vertical"
+                        android:layout_toEndOf="@id/setalarmbtn"
+                        android:text="Cancel Alarm"
+                        android:textColor="@color/hint"
+                        android:textSize="16dp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
+
+
+
+
+
         </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
 </FrameLayout>

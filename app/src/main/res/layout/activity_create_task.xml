@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/createTask"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="650dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">>
 
         <!-- Cancel/Back Button -->
@@ -50,7 +50,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="match_parent"
             android:layout_below="@id/newReminderTV"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -66,16 +66,19 @@
                 android:padding="16dp">
 
                 <!-- Title EditText -->
+
                 <EditText
                     android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:gravity="start"
-                    android:hint=" Title"
+                    android:hint="  Title"
                     android:textSize="20sp" />
 
                 <!-- Line -->
+
+
 
                 <View
                     android:layout_width="match_parent"
@@ -96,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="top|start"
-                        android:hint="Notes"
+                        android:hint="  Notes"
                         android:maxLines="10"
                         android:minLines="5"
                         android:paddingLeft="4dp"
@@ -121,10 +124,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="0dp"
                         android:layout_toEndOf="@id/datebtn_createtask"
                         android:gravity="start|center_vertical"
-                        android:hint=" Date"
+                        android:hint="   Click icon to set Due Date"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -151,10 +155,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="0dp"
                         android:layout_toEndOf="@id/alarmbtn_createtask"
                         android:gravity="start|center_vertical"
-                        android:hint=" Alarm"
+                        android:hint="   Click icon to set an Alarm"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -164,10 +169,43 @@
                     android:layout_marginTop="12dp"
                     android:background="@android:color/darker_gray" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/setalarmbtn"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="45dp"
+                        android:gravity="center"
+                        android:text="Set Alarm"
+                        android:textColor="@color/hint"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/cancelalarmbtn"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:gravity="center|center_vertical"
+                        android:layout_toEndOf="@id/setalarmbtn"
+                        android:text="Cancel Alarm"
+                        android:textColor="@color/hint"
+                        android:textSize="16dp" />
+
+                </RelativeLayout>
+
             </LinearLayout>
 
 
+
+
+
+
         </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
 </FrameLayout>

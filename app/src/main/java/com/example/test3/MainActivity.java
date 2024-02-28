@@ -2,10 +2,20 @@ package com.example.test3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContentInfo;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -13,22 +23,40 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.test3.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+    private MaterialTimePicker timePicker;
+    private Calendar calendar;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        createNotificationChannel();
+
+
         setContentView(R.layout.activity_main);
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
@@ -46,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView datetxt_createtask = bottomSheetDialog.findViewById(R.id.datetxt_createtask);
                 ImageView alarmbtn_createtask = bottomSheetDialog.findViewById(R.id.alarmbtn_createtask);
                 TextView alarmtxt_createtask = bottomSheetDialog.findViewById(R.id.alarmtxt_createtask);
-
+                TextView setalarmbtn = bottomSheetDialog.findViewById(R.id.setalarmbtn);
+                TextView cancelalarmbtn = bottomSheetDialog.findViewById(R.id.cancelalarmbtn);
 
                 if (titleEditText != null) {
                     titleEditText.requestFocus();
@@ -100,29 +129,58 @@ public class MainActivity extends AppCompatActivity {
                 alarmbtn_createtask.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Calendar currentTime = Calendar.getInstance();
-                        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-                        int minute = currentTime.get(Calendar.MINUTE);
+                        timePicker = new MaterialTimePicker.Builder()
+                                .setTimeFormat(TimeFormat.CLOCK_12H)
+                                .setHour(12)
+                                .setMinute(0)
+                                .setTitleText("Select Alarm Time")
+                                .build();
 
-                        // Create a TimePickerDialog and show it
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
-                                new TimePickerDialog.OnTimeSetListener() {
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                        int hour = hourOfDay % 12;
-                                        if (hour == 0) {
-                                            hour = 12; // 12 AM
-                                        }
+                        timePicker.show(getSupportFragmentManager(),"tala");
+                        timePicker.addOnPositiveButtonClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                if (timePicker.getHour() > 12){
+                                    alarmtxt_createtask.setText(
+                                            String.format("%02d", (timePicker.getHour()-12))+":"+ String.format("%02d", timePicker.getMinute())+ "PM"
+                                    );
+                                } else {
+                                    alarmtxt_createtask.setText(timePicker.getHour()+":"+ timePicker.getMinute()+ "AM");
+                                }
 
-                                        String amPm = (hourOfDay < 12) ? "AM" : "PM";
-                                        
-                                        String selectedTime = String.format("%02d:%02d %s", hour, minute, amPm);
-                                        alarmtxt_createtask.setText(selectedTime);
-                                    }
-                                }, hour, minute, false);
+                                calendar = Calendar.getInstance();
+                                calendar.set(Calendar.HOUR_OF_DAY,timePicker.getHour());
+                                calendar.set(Calendar.MINUTE, timePicker.getMinute());
+                                calendar.set(Calendar.SECOND, 0);
+                                calendar.set(Calendar.MILLISECOND,0);
+                            }
+                        });
+                    }
+                });
 
-                        // Show the TimePickerDialog
-                        timePickerDialog.show();
+                setalarmbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0,intent, PendingIntent.FLAG_IMMUTABLE);
+
+                        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                        Toast.makeText(MainActivity.this,"Alarm Set", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                cancelalarmbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0,intent, PendingIntent.FLAG_IMMUTABLE);
+
+                        if (alarmManager == null){
+                            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        }
+                        alarmManager.cancel(pendingIntent);
+                        Toast.makeText(MainActivity.this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -158,5 +216,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "tala_arawan";
+            String desc = "Channel for Alarm Manager";
+            int imp = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("tala", name, imp);
+            channel.setDescription(desc);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
     }
 }

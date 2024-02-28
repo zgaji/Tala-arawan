@@ -1,16 +1,11 @@
 package com.example.test3;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -18,12 +13,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.widget.TimePicker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                //CALENDAR VIEW
+                // CALENDAR VIEW
 //                datebtn_createtask.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-                //DATE PICKER
+                // DATE PICKER
                 datebtn_createtask.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -97,11 +96,33 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                //ALARM PICKER
+                // ALARM PICKER
                 alarmbtn_createtask.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Calendar currentTime = Calendar.getInstance();
+                        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                        int minute = currentTime.get(Calendar.MINUTE);
 
+                        // Create a TimePickerDialog and show it
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
+                                new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                        int hour = hourOfDay % 12;
+                                        if (hour == 0) {
+                                            hour = 12; // 12 AM
+                                        }
+
+                                        String amPm = (hourOfDay < 12) ? "AM" : "PM";
+                                        
+                                        String selectedTime = String.format("%02d:%02d %s", hour, minute, amPm);
+                                        alarmtxt_createtask.setText(selectedTime);
+                                    }
+                                }, hour, minute, false);
+
+                        // Show the TimePickerDialog
+                        timePickerDialog.show();
                     }
                 });
 

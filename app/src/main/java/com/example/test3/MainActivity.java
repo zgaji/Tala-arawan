@@ -38,11 +38,15 @@ import android.app.TimePickerDialog;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private RecyclerView smartListRecyclerView;
+    private SmartListAdapter adapter;
     private MaterialTimePicker timePicker;
     private Calendar calendar;
     private AlarmManager alarmManager;
@@ -57,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
+        smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
+        smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        // Sample data
+        List<SmartListData> dataList = new ArrayList<>();
+        dataList.add(new SmartListData("All", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
+        dataList.add(new SmartListData("Scheduled", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
+        dataList.add(new SmartListData("Favorites", "3", R.drawable.ic_calendar, Color.parseColor("#afffca")));
+
+        adapter = new SmartListAdapter(dataList);
+        smartListRecyclerView.setAdapter(adapter);
 
         add_noteBTN.setOnClickListener(new View.OnClickListener() {
             @Override

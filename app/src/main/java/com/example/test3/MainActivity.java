@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,16 +62,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
+        ImageView calendarviewbtn = findViewById(R.id.calendarviewbtn);
+
+
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
         smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         // Sample data
         List<SmartListData> dataList = new ArrayList<>();
-        dataList.add(new SmartListData("All", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
+        dataList.add(new SmartListData("Today", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
         dataList.add(new SmartListData("Scheduled", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
         dataList.add(new SmartListData("Favorites", "3", R.drawable.ic_calendar, Color.parseColor("#afffca")));
 
         adapter = new SmartListAdapter(dataList);
         smartListRecyclerView.setAdapter(adapter);
+
+
+        //CALENDAR VIEW
+        calendarviewbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create the bottom sheet dialog
+                BottomSheetDialog bottomSheetDialog1 = new BottomSheetDialog(MainActivity.this);
+                bottomSheetDialog1.setContentView(R.layout.activity_show_calendar);
+
+//                // Initialize views after the dialog is shown
+//                ImageView backbtn_calendar = bottomSheetDialog1.findViewById(R.id.backbtn_calendar);
+//                CalendarView calendarView = bottomSheetDialog1.findViewById(R.id.calendarView);
+//
+//                backbtn_calendar.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        // Dismiss the bottom sheet dialog
+//                        bottomSheetDialog1.dismiss();
+//                    }
+//                });
+
+                // Show the bottom sheet dialog
+                bottomSheetDialog1.show();
+            }
+        });
+
+
 
         add_noteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,15 +130,6 @@ public class MainActivity extends AppCompatActivity {
                         bottomSheetDialog.dismiss(); // Close the dialog
                     }
                 });
-
-                // CALENDAR VIEW
-//                datebtn_createtask.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent(MainActivity.this, ShowCalendar.class);
-//                        startActivity(intent);
-//                    }
-//                });
 
                 // DATE PICKER
                 datebtn_createtask.setOnClickListener(new View.OnClickListener() {
@@ -208,8 +231,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
 
 
                 // Set TextChangedListener to title EditText to enable/disable add button

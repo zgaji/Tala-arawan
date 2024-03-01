@@ -14,6 +14,7 @@ public class SmartListData {
         this.circleColor = circleColor;
     }
 
+
     public String getTextName() {
         return textName;
     }

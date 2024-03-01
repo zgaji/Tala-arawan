@@ -10,7 +10,7 @@
         android:id="@+id/createTask"
         android:layout_width="match_parent"
         android:layout_height="650dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">>
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- Cancel/Back Button -->
         <TextView
@@ -197,10 +197,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
-
-
-
 
 
         </androidx.cardview.widget.CardView>

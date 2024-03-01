@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowCalendar">
+
+
+    <RelativeLayout
+        android:id="@+id/showCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="650dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <ImageView
+            android:id="@+id/backbtn_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/seeAllTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="See all tasks"
+            android:textColor="@color/purple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_c"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/seeAllTask"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="13dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.applandeo.materialcalendarview.CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="450dp"
+                    app:abbreviationsBarColor="@color/melrose"
+                    app:abbreviationsLabelsColor="@color/white"
+                    app:daysLabelsColor="@color/cornflowerblue"
+                    app:headerColor="@color/cornflowerblue"
+                    app:headerLabelColor="@color/white"
+                    app:pagesColor="@color/t_white"
+                    app:selectionColor="@color/cornflowerblue"
+                    app:selectionLabelColor="@color/black"
+                    app:todayLabelColor="@color/heliotrope" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</FrameLayout>

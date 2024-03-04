@@ -6,7 +6,7 @@
     android:layout_height="130dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
-    app:cardBackgroundColor="@color/martinique"
+    app:cardBackgroundColor="@color/white"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -26,13 +26,13 @@
 
             <!-- Content for the left section goes here -->
             <TextView
-                android:id="@+id/monthTextView"
+                android:id="@+id/dayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Month"
-                android:textSize="15sp"
-                android:textColor="@color/t_white"
+                android:text="Day"
+                android:textSize="17sp"
+                android:textColor="@color/purple"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
 
@@ -40,21 +40,20 @@
                 android:id="@+id/dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
+                android:layout_marginVertical="4dp"
                 android:text="10"
                 android:textSize="30sp"
-                android:textColor="@color/white"
+                android:textColor="@color/purple"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/yearTextView"
+                android:id="@+id/monthTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="2024"
-                android:textSize="15sp"
-                android:textColor="@color/t_white"
+                android:text="Month"
+                android:textSize="17sp"
+                android:textColor="@color/purple"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
         </LinearLayout>
@@ -66,7 +65,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="4dp"
-            android:background="@color/t_white" />
+            android:background="@color/purple" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -89,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textSize="20sp"
-                    android:textColor="@color/t_white"
+                    android:textColor="@color/purple"
                     android:textStyle="bold"
                     android:layout_alignParentStart="true" />
 
@@ -99,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_delete"
-                    app:tint="@color/t_white"
+                    app:tint="@color/hint"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
@@ -110,7 +109,7 @@
                 android:layout_marginVertical="4dp"
                 android:text="Content here"
                 android:textSize="12sp"
-                android:textColor="@color/t_white"/>
+                android:textColor="@color/purple"/>
 
             <TextView
                 android:id="@+id/dateInitTextView"
@@ -119,16 +118,8 @@
                 android:layout_marginVertical="2dp"
                 android:text="10/02/2024"
                 android:textSize="12sp"
-                android:textColor="@color/t_white" />
+                android:textColor="@color/purple" />
 
-            <TextView
-                android:id="@+id/timeTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
-                android:text="00:00"
-                android:textSize="12sp"
-                android:textColor="@color/t_white" />
         </LinearLayout>
 
     </LinearLayout>

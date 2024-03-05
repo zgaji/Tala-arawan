@@ -2,9 +2,26 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Test3" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowDisablePreview">true</item>
+
+        <item name="colorPrimary">@color/bg</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/purple</item>
+
+        <item name="colorSecondary">@color/heliotrope</item>
+        <item name="colorSecondaryVariant">@color/melrose</item>
+        <item name="colorOnSecondary">@color/malibu</item>
+
+        <item name="colorTertiary">@color/martinique</item>
+        <item name="colorOnTertiary">@color/martin</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+
+    <style name="background"><item name="android:background">@color/t_white</item></style>
+    <style name="textcolor"><item name="android:textColor">@color/purple</item></style>
+    <style name="listbg"><item name="android:background">@color/martinique</item></style>
+    <style name="titlecolor"><item name="android:textColor">@color/t_white</item></style>
+
 
     <style name="Theme.Test3" parent="Base.Theme.Test3" />
 </resources>

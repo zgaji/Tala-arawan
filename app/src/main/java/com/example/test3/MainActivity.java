@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ import android.view.ContentInfo;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.test3.databinding.ActivityMainBinding;
@@ -38,10 +41,13 @@ import android.app.TimePickerDialog;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,19 +57,20 @@ public class MainActivity extends AppCompatActivity {
     private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
-
+    private SwitchCompat switchMode;
+    private boolean nightMode;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         createNotificationChannel();
-
         setContentView(R.layout.activity_main);
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
         ImageView calendarviewbtn = findViewById(R.id.calendarviewbtn);
-
 
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
         smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -75,6 +82,32 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new SmartListAdapter(dataList);
         smartListRecyclerView.setAdapter(adapter);
+
+        switchMode = findViewById(R.id.switchMode);
+        sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("nightMode", false);
+
+        if (nightMode){
+            switchMode.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        //Switch Mode
+        switchMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (nightMode){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor = sharedPreferences.edit();
+                    editor.putBoolean("nightMode", false);
+                } else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor = sharedPreferences.edit();
+                    editor.putBoolean("nightMode", true);
+                }
+                editor.apply();
+            }
+        });
 
 
         //CALENDAR VIEW

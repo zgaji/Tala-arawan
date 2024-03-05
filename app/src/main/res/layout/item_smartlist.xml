@@ -10,7 +10,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="99dp">
+        android:layout_height="99dp"
+        style="@style/listbg">
 
         <!-- Circular blue border background -->
         <View
@@ -35,6 +36,7 @@
         <!-- TextView in the upper right -->
         <TextView
             android:id="@+id/numberTextView"
+            style="@style/titlecolor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
@@ -42,11 +44,11 @@
             android:layout_marginEnd="16dp"
             android:text="123"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/textTextView"
+            style="@style/titlecolor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom"
@@ -54,7 +56,6 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:text="Text"
-            android:textColor="@color/hint"
             android:textStyle="bold"
             android:textSize="17sp" />
 

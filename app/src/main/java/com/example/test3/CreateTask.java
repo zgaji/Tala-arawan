@@ -73,7 +73,8 @@ public class CreateTask extends BottomSheetDialogFragment {
     private void addDataToFirebase(String title, String notes, String date, String alarm) {
         String taskId = databaseReference.push().getKey();
         String creationDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
-        MainModel mainModel = new MainModel(title, taskId, alarm, notes, date, "false", "", creationDate);
+        String lastOpenedDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
+        MainModel mainModel = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate);
         databaseReference.child("tasks").child(taskId).setValue(mainModel);
     }
 

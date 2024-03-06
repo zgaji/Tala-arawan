@@ -27,18 +27,18 @@
 
             <!-- Content for the left section goes here -->
             <TextView
-                android:id="@+id/dayTextView"
+                android:id="@+id/weekdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Day"
+                android:text="Weekday"
                 android:textSize="17sp"
                 android:textColor="@color/purple"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/dateTextView"
+                android:id="@+id/dayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"

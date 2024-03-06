@@ -52,6 +52,10 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.taskDesc.setText(model.getTaskDesc());
         holder.taskTitle.setText(model.getTaskTitle());
 
+        holder.monthTextView.setText(model.getLastOpenedDate());
+        holder.weekdayTextView.setText(model.getLastOpenedDate());
+        holder.dayTextView.setText(model.getLastOpenedDate());
+
         // Set OnClickListener for the CardView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,18 +74,21 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                         calendar.setTime(date);
 
                         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        int month = calendar.get(Calendar.MONTH);
-                        int weekday = calendar.get(Calendar.DAY_OF_WEEK);
                         String monthName = new SimpleDateFormat("MMM", Locale.getDefault()).format(calendar.getTime());
                         String dayOfWeek = new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
 
                         holder.dayTextView.setText(String.valueOf(dayOfMonth));
-                        holder.dateTextView.setText(weekday);
-                        holder.monthTextView.setText(month);
+                        holder.weekdayTextView.setText(dayOfWeek);
+                        holder.monthTextView.setText(monthName);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    // Handle case when lastOpenedDate is null or empty
+                    holder.dayTextView.setText("");
+                    holder.weekdayTextView.setText("");
+                    holder.monthTextView.setText("");
                 }
             }
         });
@@ -121,7 +128,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{
-        TextView taskTitle, taskId, taskDesc, dateCreated, isComplete, alarm, dayTextView, dateTextView, monthTextView;
+        TextView taskTitle, taskId, taskDesc, dateCreated, isComplete, alarm, weekdayTextView, dayTextView, monthTextView;
         ImageView deleteImageView;
         CardView cardView;
 
@@ -130,8 +137,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             taskTitle= (TextView) itemView.findViewById(R.id.titleTextView);
             taskDesc = (TextView) itemView.findViewById(R.id.contentTextView);
             dateCreated = (TextView) itemView.findViewById(R.id.dateInitTextView);
+            weekdayTextView = (TextView) itemView.findViewById(R.id.weekdayTextView);
             dayTextView = (TextView) itemView.findViewById(R.id.dayTextView);
-            dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             monthTextView = (TextView) itemView.findViewById(R.id.monthTextView);
             cardView = itemView.findViewById(R.id.cardView);
             deleteImageView = itemView.findViewById(R.id.deleteImageView);

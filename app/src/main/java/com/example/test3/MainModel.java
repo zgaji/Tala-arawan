@@ -23,6 +23,8 @@ public class MainModel {
         this.creationDate = creationDate;
     }
 
+
+
     public MainModel(String taskTitle, String taskId, String alarm, String taskDesc, String date,
                      String isComplete, String lastOpenedDate, String creationDate) {
         this.taskTitle = taskTitle;

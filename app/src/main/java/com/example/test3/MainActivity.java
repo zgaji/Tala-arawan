@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView task_recycler_view;
     MainAdapter mainAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

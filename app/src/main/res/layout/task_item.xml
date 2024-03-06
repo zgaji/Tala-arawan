@@ -6,122 +6,132 @@
     android:layout_height="130dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
-    app:cardBackgroundColor="@color/white"
     app:cardElevation="4dp"
     android:id="@+id/cardView">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:orientation="horizontal">
-
-        <!-- Left section -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="8dp"
-            android:padding="4dp"
-            android:orientation="vertical">
-
-            <!-- Content for the left section goes here -->
-            <TextView
-                android:id="@+id/weekdayTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Weekday"
-                android:textSize="17sp"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/dayTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:text="10"
-                android:textSize="30sp"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/monthTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Month"
-                android:textSize="17sp"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-
-        <!-- Right section -->
-        <View
-            android:id="@+id/divider12"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="4dp"
-            android:background="@color/purple" />
+        style="@style/listbg">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="8dp"
-            android:padding="4dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
 
-            <!-- Content for the right section goes here -->
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+            <!-- Left section -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp"
+                android:padding="4dp"
+                android:orientation="vertical" >
 
-                <!-- Title -->
+                <!-- Content for the left section goes here -->
                 <TextView
-                    android:id="@+id/titleTextView"
+                    android:id="@+id/weekdayTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textSize="20sp"
-                    android:textColor="@color/purple"
+                    android:layout_marginTop="4dp"
+                    android:text="Weekday"
+                    android:textSize="17sp"
+                    style="@style/weekdaycolor"
                     android:textStyle="bold"
-                    android:layout_alignParentStart="true" />
+                    android:layout_gravity="center"/>
 
-                <!-- Icon -->
-                <ImageView
-                    android:id="@+id/deleteImageView"
+                <TextView
+                    android:id="@+id/dayTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete"
-                    app:tint="@color/hint"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
+                    android:layout_marginVertical="4dp"
+                    android:text="10"
+                    android:textSize="30sp"
+                    style="@style/datecolor"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/contentTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/monthTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Month"
+                    android:textSize="17sp"
+                    style="@style/monthcolor"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+
+            <!-- Right section -->
+            <View
+                android:id="@+id/divider12"
+                android:layout_width="1dp"
+                android:layout_height="100dp"
                 android:layout_marginVertical="4dp"
-                android:text="Content here"
-                android:textSize="12sp"
-                android:textColor="@color/purple"/>
+                style="@style/titlecolor"
+                />
 
-            <TextView
-                android:id="@+id/dateInitTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
-                android:text="10/02/2024"
-                android:textSize="12sp"
-                android:textColor="@color/purple" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="8dp"
+                android:padding="4dp">
+
+                <!-- Content for the right section goes here -->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal">
+
+                    <!-- Title -->
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Title"
+                        android:textSize="20sp"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:layout_alignParentStart="true" />
+
+                    <!-- Icon -->
+                    <ImageView
+                        android:id="@+id/deleteImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_delete"
+                        app:tint="@color/hint"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/contentTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="4dp"
+                    android:text="Content here"
+                    android:textSize="12sp"
+                    style="@style/titlecolor"
+                    />
+
+                <TextView
+                    android:id="@+id/dateInitTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="2dp"
+                    android:text="10/02/2024"
+                    android:textSize="12sp"
+                    style="@style/titlecolor" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

@@ -184,7 +184,8 @@ public class CreateTask extends BottomSheetDialogFragment {
         // Add a TextChangedListener to the titleEditText
         titleEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -192,13 +193,15 @@ public class CreateTask extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Add a TextChangedListener to the notesEditText
         notesEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -206,13 +209,15 @@ public class CreateTask extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Add a TextChangedListener to the datetxt_createtask
         datetxt_createtask.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -220,13 +225,15 @@ public class CreateTask extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Add a TextChangedListener to the alarmtxt_createtask
         alarmtxt_createtask.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -234,7 +241,8 @@ public class CreateTask extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         return view;

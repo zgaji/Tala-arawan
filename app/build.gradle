@@ -32,6 +32,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
@@ -46,8 +50,10 @@ dependencies {
     //firebase connection/implementation
     implementation platform('com.google.firebase:firebase-bom:32.7.2')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
 
     //calendar implementation
     implementation 'com.applandeo:material-calendar-view:1.7.0'
     implementation 'com.applandeo:material-calendar-view:1.9.0-rc04'
+
 }

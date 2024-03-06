@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
     tools:context=".CreateTask">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/background">
 
     <RelativeLayout
         android:id="@+id/createTask"
@@ -56,14 +64,15 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="13dp">
+            app:cardCornerRadius="16dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                style="@style/notesbg">
 
                 <!-- Title EditText -->
 
@@ -118,6 +127,7 @@
 
                     <TextView
                         android:id="@+id/datetxt_createtask"
+                        style="@style/textcolor"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
@@ -126,8 +136,8 @@
                         android:layout_toEndOf="@id/datebtn_createtask"
                         android:gravity="start|center_vertical"
                         android:hint="   Click icon to set Due Date"
-                        android:textColor="@color/martinique"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <View
@@ -150,6 +160,7 @@
 
                     <TextView
                         android:id="@+id/alarmtxt_createtask"
+                        style="@style/textcolor"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
@@ -158,7 +169,8 @@
                         android:layout_toEndOf="@id/alarmbtn_createtask"
                         android:gravity="start|center_vertical"
                         android:hint="   Click icon to set an Alarm"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -178,7 +190,7 @@
                         android:id="@+id/setalarmbtn"
                         android:layout_width="130dp"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="45dp"
+                        android:layout_marginLeft="40dp"
                         android:gravity="center"
                         android:text="Set Alarm"
                         android:textColor="@color/melrose"
@@ -206,5 +218,8 @@
     </RelativeLayout>
 
 </FrameLayout>
+
+</androidx.cardview.widget.CardView>
+
 
 

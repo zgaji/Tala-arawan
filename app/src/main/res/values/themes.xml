@@ -18,9 +18,16 @@
     </style>
 
     <style name="background"><item name="android:background">@color/t_white</item></style>
+    <style name="notesbg"><item name="android:background">@color/white</item></style>
     <style name="textcolor"><item name="android:textColor">@color/purple</item></style>
     <style name="listbg"><item name="android:background">@color/martinique</item></style>
     <style name="titlecolor"><item name="android:textColor">@color/t_white</item></style>
+
+    <style name="weekdaycolor"><item name="android:textColor">@color/heliotrope</item></style>
+    <style name="datecolor"><item name="android:textColor">@color/malibu</item></style>
+    <style name="monthcolor"><item name="android:textColor">@color/melrose</item></style>
+
+
 
 
     <style name="Theme.Test3" parent="Base.Theme.Test3" />

@@ -10,7 +10,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="99dp"
+        android:layout_height="100dp"
         style="@style/listbg">
 
         <!-- Circular blue border background -->

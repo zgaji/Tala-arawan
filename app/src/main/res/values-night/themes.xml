@@ -7,9 +7,9 @@
         <item name="colorPrimaryVariant">@color/martin</item>
         <item name="colorOnPrimary">@color/purple</item>
 
-        <item name="colorSecondary">@color/heliotrope</item>
-        <item name="colorSecondaryVariant">@color/melrose</item>
-        <item name="colorOnSecondary">@color/malibu</item>
+        <item name="colorSecondary">@color/cornflowerblue</item>
+        <item name="colorSecondaryVariant">@color/malibu</item>
+        <item name="colorOnSecondary">@color/mmalibu</item>
 
         <item name="colorTertiary">@color/bg</item>
         <item name="colorOnTertiary">@color/t_white</item>
@@ -19,9 +19,18 @@
 
 
     <style name="background"><item name="android:background">@color/martinique</item></style>
+    <style name="notesbg"><item name="android:background">@color/martin</item></style>
     <style name="textcolor"><item name="android:textColor">@color/purple</item></style>
     <style name="listbg"><item name="android:background">@color/t_white</item></style>
     <style name="titlecolor"><item name="android:textColor">@color/martinique</item></style>
+
+    <style name="weekdaycolor"><item name="android:textColor">@color/cornflowerblue</item></style>
+    <style name="datecolor"><item name="android:textColor">@color/malibu</item></style>
+    <style name="monthcolor"><item name="android:textColor">@color/mmalibu</item></style>
+
+
+
+
 
 
 

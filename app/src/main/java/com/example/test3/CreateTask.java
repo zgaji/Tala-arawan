@@ -32,8 +32,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.EventDay;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -42,10 +42,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -63,6 +61,7 @@ public class CreateTask extends BottomSheetDialogFragment {
     private EditText notesEditText;
 
 
+
     // Method to set data from MainAdapter
     public void setData(MainModel mainModel) {
         this.mainModel = mainModel;
@@ -78,8 +77,12 @@ public class CreateTask extends BottomSheetDialogFragment {
         String taskId = databaseReference.push().getKey();
         String creationDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
         String lastOpenedDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
-        MainModel mainModel = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate);
-        databaseReference.child("tasks").child(taskId).setValue(mainModel);
+        MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate);
+        databaseReference.child("tasks").child(taskId).setValue(newTask);
+
+        mainAdapter.insertItem(newTask);
+
+        mainModel = newTask;
     }
 
     @Nullable
@@ -118,14 +121,17 @@ public class CreateTask extends BottomSheetDialogFragment {
                         mainModel.setAlarm(alarm);
                         databaseReference.child("tasks").child(mainModel.getTaskId()).setValue(mainModel);
                         Toast.makeText(requireContext(), "Task Updated", Toast.LENGTH_SHORT).show();
+
                     } else {
                         // Add new data to Firebase
                         addDataToFirebase(title, notes, date, alarm);
+                        mainAdapter.insertItem(mainModel);
                     }
 
                     // Notify MainAdapter to update the data set
                     if (mainAdapter != null) {
                         mainAdapter.notifyDataSetChanged();
+
                     }
 
                     dismiss();
@@ -251,6 +257,7 @@ public class CreateTask extends BottomSheetDialogFragment {
 
         return view;
     }
+
 
     private void checkEnableAddButton(TextView addBtn, EditText titleEditText, EditText notesEditText, TextView datetxt_createtask, TextView alarmtxt_createtask) {
         boolean anyFieldNotEmpty = !TextUtils.isEmpty(titleEditText.getText()) || !TextUtils.isEmpty(notesEditText.getText()) || !TextUtils.isEmpty(datetxt_createtask.getText()) || !TextUtils.isEmpty(alarmtxt_createtask.getText());

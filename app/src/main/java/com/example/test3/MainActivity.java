@@ -24,12 +24,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.test3.databinding.ActivityMainBinding;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -39,6 +41,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+    RecyclerView task_recycler_view;
+    MainAdapter mainAdapter;
 
 
     @Override
@@ -63,13 +68,21 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
         ImageView calendarviewbtn = findViewById(R.id.calendarviewbtn);
-
+        task_recycler_view = (RecyclerView) findViewById(R.id.task_recycler_view);
+        task_recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
-        smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+         smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        FirebaseRecyclerOptions<MainModel> options =
+                new FirebaseRecyclerOptions.Builder<MainModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("tasks"), MainModel.class)
+                        .build();
+
+        mainAdapter = new MainAdapter(options, this);
+        task_recycler_view.setAdapter(mainAdapter);
 
         // Sample data
-        List<SmartListData> dataList = new ArrayList<>();
+       List<SmartListData> dataList = new ArrayList<>();
         dataList.add(new SmartListData("Today", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
         dataList.add(new SmartListData("Scheduled", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
         dataList.add(new SmartListData("Favorites", "3", R.drawable.ic_calendar, Color.parseColor("#afffca")));
@@ -124,5 +137,17 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
 
         }
+    }
+    @Override
+    protected void onStart() {
+        mainAdapter.startListening();
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        mainAdapter.stopListening();
+        super.onStop();
     }
 }

@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.annotation.SuppressLint;
@@ -35,6 +37,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -45,10 +49,31 @@ import java.util.Locale;
 
 public class CreateTask extends BottomSheetDialogFragment {
 
+    private MainModel mainModel;
+    private MainAdapter mainAdapter;
+    private DatabaseReference databaseReference;
+    private boolean dataChanged = false;
     private MaterialTimePicker timePicker;
     private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+
+    // Method to set data from MainAdapter
+    public void setData(MainModel mainModel) {
+        this.mainModel = mainModel;
+    }
+
+    // Method to set the adapter
+    public void setAdapter(MainAdapter adapter) {
+        this.mainAdapter = adapter;
+    }
+
+    // Method to add data to Firebase
+    private void addDataToFirebase(String title, String notes, String date, String alarm) {
+        String taskId = databaseReference.push().getKey();
+        MainModel mainModel = new MainModel(title, taskId, alarm, notes, date, "false", "");
+        databaseReference.child("tasks").child(taskId).setValue(mainModel);
+    }
 
     @Nullable
     @Override
@@ -58,12 +83,61 @@ public class CreateTask extends BottomSheetDialogFragment {
         TextView addBtn = view.findViewById(R.id.addBTN);
         TextView cancelBtn = view.findViewById(R.id.cancelBTN);
         EditText titleEditText = view.findViewById(R.id.titleEditText);
+        EditText notesEditText = view.findViewById(R.id.notesEditText);
         ImageView datebtn_createtask = view.findViewById(R.id.datebtn_createtask);
         TextView datetxt_createtask = view.findViewById(R.id.datetxt_createtask);
         ImageView alarmbtn_createtask = view.findViewById(R.id.alarmbtn_createtask);
         TextView alarmtxt_createtask = view.findViewById(R.id.alarmtxt_createtask);
         TextView setalarmbtn = view.findViewById(R.id.setalarmbtn);
         TextView cancelalarmbtn = view.findViewById(R.id.cancelalarmbtn);
+
+        addBtn.setEnabled(false); // Disable add button initially
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dataChanged) {
+                    String title = titleEditText.getText().toString();
+                    String notes = notesEditText.getText().toString();
+                    String date = datetxt_createtask.getText().toString();
+                    String alarm = alarmtxt_createtask.getText().toString();
+
+                    if (mainModel != null) {
+                        // Update existing data in Firebase
+                        mainModel.setTaskTitle(title);
+                        mainModel.setTaskDesc(notes);
+                        mainModel.setDate(date);
+                        mainModel.setAlarm(alarm);
+                        databaseReference.child("tasks").child(mainModel.getTaskId()).setValue(mainModel);
+                        Toast.makeText(requireContext(), "Task Updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Add new data to Firebase
+                        addDataToFirebase(title, notes, date, alarm);
+                    }
+
+                    // Notify MainAdapter to update the data set
+                    if (mainAdapter != null) {
+                        mainAdapter.notifyDataSetChanged();
+
+                       
+                    }
+
+                    dismiss();
+                } else {
+                    // Handle case when no changes were made
+                }
+            }
+        });
+
+        // Check if the fragment received existing data to edit
+        if (mainModel != null) {
+            addBtn.setText("Update");
+            titleEditText.setText(mainModel.getTaskTitle());
+            notesEditText.setText(mainModel.getTaskDesc());
+            datetxt_createtask.setText(mainModel.getDate());
+            alarmtxt_createtask.setText(mainModel.getAlarm());
+        }
 
         if (titleEditText != null) {
             titleEditText.requestFocus();
@@ -72,7 +146,7 @@ public class CreateTask extends BottomSheetDialogFragment {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss(); // Close the bottom sheet dialog
+                dismiss();
             }
         });
 
@@ -106,25 +180,70 @@ public class CreateTask extends BottomSheetDialogFragment {
             }
         });
 
-        // Set TextChangedListener to title EditText to enable/disable add button
-        if (titleEditText != null && addBtn != null) {
-            titleEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        // Add a TextChangedListener to the titleEditText
+        titleEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // Enable/disable add button based on text input
-                    addBtn.setEnabled(!TextUtils.isEmpty(s));
-                    addBtn.setTextColor(ContextCompat.getColor(requireContext(), TextUtils.isEmpty(s) ? R.color.black : R.color.black));
-                }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkEnableAddButton(addBtn, titleEditText, notesEditText, datetxt_createtask, alarmtxt_createtask);
+            }
 
-                @Override
-                public void afterTextChanged(Editable s) {}
-            });
-        }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Add a TextChangedListener to the notesEditText
+        notesEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkEnableAddButton(addBtn, titleEditText, notesEditText, datetxt_createtask, alarmtxt_createtask);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Add a TextChangedListener to the datetxt_createtask
+        datetxt_createtask.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkEnableAddButton(addBtn, titleEditText, notesEditText, datetxt_createtask, alarmtxt_createtask);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Add a TextChangedListener to the alarmtxt_createtask
+        alarmtxt_createtask.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkEnableAddButton(addBtn, titleEditText, notesEditText, datetxt_createtask, alarmtxt_createtask);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         return view;
+    }
+
+    private void checkEnableAddButton(TextView addBtn, EditText titleEditText, EditText notesEditText, TextView datetxt_createtask, TextView alarmtxt_createtask) {
+        boolean anyFieldNotEmpty = !TextUtils.isEmpty(titleEditText.getText()) || !TextUtils.isEmpty(notesEditText.getText()) || !TextUtils.isEmpty(datetxt_createtask.getText()) || !TextUtils.isEmpty(alarmtxt_createtask.getText());
+        addBtn.setEnabled(anyFieldNotEmpty);
+        dataChanged = true;
+        addBtn.setTextColor(ContextCompat.getColor(requireContext(), anyFieldNotEmpty ? android.R.color.holo_purple : android.R.color.darker_gray));
     }
 
     private void showDatePickerDialog(TextView datetxt_createtask) {

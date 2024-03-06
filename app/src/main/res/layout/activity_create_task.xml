@@ -182,6 +182,7 @@
                         android:gravity="center"
                         android:text="Set Alarm"
                         android:textColor="@color/melrose"
+                        android:textStyle="bold"
                         android:textSize="16dp" />
 
                     <TextView
@@ -191,8 +192,9 @@
                         android:layout_toEndOf="@id/setalarmbtn"
                         android:gravity="center|center_vertical"
                         android:text="Cancel Alarm"
-                        android:textColor="@color/martinique"
-                        android:textSize="16dp" />
+                        android:textColor="@color/malibu"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 

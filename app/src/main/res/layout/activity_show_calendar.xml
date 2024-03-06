@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowCalendar">
-
+    tools:context=".ShowCalendar"
+    style="@style/background">
 
     <RelativeLayout
         android:id="@+id/showCalendar"
@@ -41,13 +41,14 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="13dp">
+            app:cardCornerRadius="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                style="@style/listbg">
 
                 <com.applandeo.materialcalendarview.CalendarView
                     android:id="@+id/calendarView"

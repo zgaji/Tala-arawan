@@ -43,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -71,7 +72,8 @@ public class CreateTask extends BottomSheetDialogFragment {
     // Method to add data to Firebase
     private void addDataToFirebase(String title, String notes, String date, String alarm) {
         String taskId = databaseReference.push().getKey();
-        MainModel mainModel = new MainModel(title, taskId, alarm, notes, date, "false", "");
+        String creationDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
+        MainModel mainModel = new MainModel(title, taskId, alarm, notes, date, "false", "", creationDate);
         databaseReference.child("tasks").child(taskId).setValue(mainModel);
     }
 
@@ -119,8 +121,6 @@ public class CreateTask extends BottomSheetDialogFragment {
                     // Notify MainAdapter to update the data set
                     if (mainAdapter != null) {
                         mainAdapter.notifyDataSetChanged();
-
-                       
                     }
 
                     dismiss();

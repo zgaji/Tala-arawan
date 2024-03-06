@@ -48,7 +48,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MainModel model) {
-        holder.date.setText(model.getDate());
+        holder.dateCreated.setText(model.getCreationDate());
         holder.taskDesc.setText(model.getTaskDesc());
         holder.taskTitle.setText(model.getTaskTitle());
 
@@ -83,7 +83,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                         e.printStackTrace();
                     }
                 }
-
             }
         });
 
@@ -122,7 +121,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{
-        TextView taskTitle, taskId, taskDesc, date, isComplete, alarm, dayTextView, dateTextView, monthTextView;
+        TextView taskTitle, taskId, taskDesc, dateCreated, isComplete, alarm, dayTextView, dateTextView, monthTextView;
         ImageView deleteImageView;
         CardView cardView;
 
@@ -130,7 +129,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             super(itemView);
             taskTitle= (TextView) itemView.findViewById(R.id.titleTextView);
             taskDesc = (TextView) itemView.findViewById(R.id.contentTextView);
-            date = (TextView) itemView.findViewById(R.id.dateInitTextView);
+            dateCreated = (TextView) itemView.findViewById(R.id.dateInitTextView);
             dayTextView = (TextView) itemView.findViewById(R.id.dayTextView);
             dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             monthTextView = (TextView) itemView.findViewById(R.id.monthTextView);

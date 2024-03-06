@@ -1,7 +1,7 @@
 package com.example.test3;
 
 public class MainModel {
-    String taskTitle, taskId, taskDesc, date, isComplete, alarm, lastOpenedDate;
+    String taskTitle, taskId, taskDesc, date, isComplete, alarm, lastOpenedDate, creationDate;
 
     MainModel() {
 
@@ -15,8 +15,16 @@ public class MainModel {
         this.lastOpenedDate = lastOpenedDate;
     }
 
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public MainModel(String taskTitle, String taskId, String alarm, String taskDesc, String date,
-                     String isComplete, String lastOpenedDate) {
+                     String isComplete, String lastOpenedDate, String creationDate) {
         this.taskTitle = taskTitle;
         this.taskId = taskId;
         this.alarm = alarm;
@@ -24,6 +32,7 @@ public class MainModel {
         this.date = date;
         this.isComplete = isComplete;
         this.lastOpenedDate = lastOpenedDate;
+        this.creationDate = creationDate;
     }
 
     public String getTaskTitle() {

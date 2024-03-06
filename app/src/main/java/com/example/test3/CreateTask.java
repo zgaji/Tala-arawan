@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.database.DatabaseReference;
@@ -55,6 +56,8 @@ public class CreateTask extends BottomSheetDialogFragment {
     private DatabaseReference databaseReference;
     private boolean dataChanged = false;
     private MaterialTimePicker timePicker;
+
+    private MaterialDatePicker datePicker;
     private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
@@ -257,26 +260,33 @@ public class CreateTask extends BottomSheetDialogFragment {
 
     private void showDatePickerDialog(TextView datetxt_createtask) {
         // Implement date picker dialog logic
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select date")
+                // Opens the date picker with today's date selected.
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setTheme(R.style.CustomMaterialDatePickerTheme)
+                .build();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-                        datetxt_createtask.setText(currentDate);
-                    }
-                }, year, month, dayOfMonth);
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            // Handle the selection of date
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(selection);
 
-        datePickerDialog.show();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+            datetxt_createtask.setText(currentDate);
+        });
+
+        datePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
     }
+
 
     private void showTimePickerDialog(TextView alarmtxt_createtask) {
         // Implement time picker dialog logic

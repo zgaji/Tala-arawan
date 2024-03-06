@@ -28,6 +28,18 @@
     <style name="monthcolor"><item name="android:textColor">@color/melrose</item></style>
 
 
+    <style name="CustomMaterialDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <!-- Style for the buttons -->
+        <item name="materialButtonStyle">@style/CustomMaterialButton</item>
+    </style>
+
+    <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <!-- Style for the buttons -->
+        <item name="android:textColor">@color/purple</item>
+        <item name="backgroundTint">@color/purple</item>
+        <item name="android:background">@color/melrose</item>
+        <item name="iconTint">@color/purple</item>
+    </style>
 
 
     <style name="Theme.Test3" parent="Base.Theme.Test3" />

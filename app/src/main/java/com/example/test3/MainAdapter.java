@@ -38,6 +38,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
 
     private Context mContext;
     private List<MainModel> dataList;
+    private FirebaseRecyclerOptions<MainModel> mSnapshots;
 
     public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options, Context context) {
         super(options);
@@ -59,7 +60,12 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.weekdayTextView.setText(model.getLastOpenedDate());
         holder.dayTextView.setText(model.getLastOpenedDate());
 
-        // Set OnClickListener for the CardView
+        String taskDescription = model.getTaskDesc();
+        if (taskDescription.length() > 20) {
+            taskDescription = taskDescription.substring(0, 20) + "...";
+        }
+        holder.taskDesc.setText(taskDescription);
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +91,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             }
         });
 
-        // Set OnClickListener for the deleteImageView
+
         holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +101,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Delete the data from Firebase
                         getRef(position).removeValue();
                     }
                 });
@@ -135,6 +140,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             holder.dayTextView.setText("");
         }
     }
+    
 
 
     @NonNull

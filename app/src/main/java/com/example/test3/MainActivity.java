@@ -63,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     RecyclerView task_recycler_view;
     MainAdapter mainAdapter;
-
     private SwitchCompat switchMode;
     private boolean nightMode;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(options, this);
         task_recycler_view.setAdapter(mainAdapter);
 
-        // Sample data
+        // Sample data of SmartList
         List<SmartListData> dataList = new ArrayList<>();
         dataList.add(new SmartListData("Today", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
         dataList.add(new SmartListData("Scheduled", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
@@ -144,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
                 showCalendar.show(getSupportFragmentManager(), "ShowCalendar");
             }
         });
-
 
     }
 

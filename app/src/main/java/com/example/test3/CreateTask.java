@@ -42,6 +42,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -76,7 +77,8 @@ public class CreateTask extends BottomSheetDialogFragment {
     private void addDataToFirebase(String title, String notes, String date, String alarm) {
         String taskId = databaseReference.push().getKey();
         String creationDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
-        String lastOpenedDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
+        Calendar calendar = Calendar.getInstance();
+        String lastOpenedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
         MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate);
         databaseReference.child("tasks").child(taskId).setValue(newTask);
 

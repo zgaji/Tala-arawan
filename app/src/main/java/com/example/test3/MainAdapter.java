@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,31 +68,20 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 createTask.setAdapter(MainAdapter.this);
                 createTask.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "CreateTask");
 
-                String lastOpenedDate = model.getLastOpenedDate();
-                if (lastOpenedDate != null && !lastOpenedDate.isEmpty()) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    try {
-                        Date date = dateFormat.parse(lastOpenedDate);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(date);
+                DatabaseReference taskRef = getRef(position);
+                taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        String monthName = new SimpleDateFormat("MMM", Locale.getDefault()).format(calendar.getTime());
-                        String dayOfWeek = new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
-
-                        holder.dayTextView.setText(String.valueOf(dayOfMonth));
-                        holder.weekdayTextView.setText(dayOfWeek);
-                        holder.monthTextView.setText(monthName);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    // Handle case when lastOpenedDate is null or empty
-                    holder.dayTextView.setText("");
-                    holder.weekdayTextView.setText("");
-                    holder.monthTextView.setText("");
-                }
+                            }
+                        });
             }
         });
 
@@ -116,8 +108,33 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 builder.show();
             }
         });
-    }
 
+
+        String lastOpenedDate = model.getLastOpenedDate();
+        if (lastOpenedDate != null && !lastOpenedDate.isEmpty()) {
+            SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            try {
+                Date date = inputDateFormat.parse(lastOpenedDate);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+
+                String monthName = new SimpleDateFormat("MMMM", Locale.getDefault()).format(calendar.getTime());
+                String dayOfWeek = new SimpleDateFormat("EEE", Locale.getDefault()).format(calendar.getTime());
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                holder.monthTextView.setText(monthName);
+                holder.weekdayTextView.setText(dayOfWeek);
+                holder.dayTextView.setText(String.valueOf(dayOfMonth));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            holder.monthTextView.setText("");
+            holder.weekdayTextView.setText("");
+            holder.dayTextView.setText("");
+        }
+    }
 
 
     @NonNull

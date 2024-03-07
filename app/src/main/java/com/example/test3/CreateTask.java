@@ -80,7 +80,7 @@ public class CreateTask extends BottomSheetDialogFragment {
         MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate);
         databaseReference.child("tasks").child(taskId).setValue(newTask);
 
-        mainAdapter.insertItem(newTask);
+        //mainAdapter.insertItem(newTask);
 
         mainModel = newTask;
     }
@@ -125,7 +125,7 @@ public class CreateTask extends BottomSheetDialogFragment {
                     } else {
                         // Add new data to Firebase
                         addDataToFirebase(title, notes, date, alarm);
-                        mainAdapter.insertItem(mainModel);
+                        //mainAdapter.insertItem(mainModel);
                     }
 
                     // Notify MainAdapter to update the data set
@@ -136,7 +136,7 @@ public class CreateTask extends BottomSheetDialogFragment {
 
                     dismiss();
                 } else {
-                    // Handle case when no changes were made
+
                 }
             }
         });
@@ -342,7 +342,8 @@ public class CreateTask extends BottomSheetDialogFragment {
 
             // Use a unique request code for each alarm (here, taskId is used as the request code)
             int requestCode = mainModel != null ? mainModel.getTaskId().hashCode() : title.hashCode();
-            pendingIntent = PendingIntent.getBroadcast(requireContext(), requestCode, intent, PendingIntent.FLAG_IMMUTABLE);            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            pendingIntent = PendingIntent.getBroadcast(requireContext(), requestCode, intent, PendingIntent.FLAG_IMMUTABLE);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             Toast.makeText(requireContext(), "Alarm Set", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(requireContext(), "Please select alarm time", Toast.LENGTH_SHORT).show();

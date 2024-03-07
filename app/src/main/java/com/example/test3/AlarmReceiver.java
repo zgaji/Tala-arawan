@@ -20,18 +20,27 @@ public class AlarmReceiver extends BroadcastReceiver {
     @SuppressLint("MissingPermission")
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Retrieve the title from the intent
+        String title = intent.getStringExtra("title");
+        String text = intent.getStringExtra("text");
 
-        Intent nextActivity = new Intent(context, CreateTask.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,nextActivity, PendingIntent.FLAG_IMMUTABLE);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle()
+                .bigText(text);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "tala")
                 .setSmallIcon(R.drawable.ic_notif)
-                .setContentTitle("Notification")
-                .setContentText("This is a notification for your task")
+                .setContentTitle(title)
+                .setContentText(text)
+                .setStyle(bigTextStyle)
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(123, builder.build());

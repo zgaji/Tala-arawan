@@ -56,11 +56,12 @@ public class CreateTask extends BottomSheetDialogFragment {
     private DatabaseReference databaseReference;
     private boolean dataChanged = false;
     private MaterialTimePicker timePicker;
-
-    private MaterialDatePicker datePicker;
     private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+    private EditText titleEditText;
+    private EditText notesEditText;
+
 
     // Method to set data from MainAdapter
     public void setData(MainModel mainModel) {
@@ -88,8 +89,8 @@ public class CreateTask extends BottomSheetDialogFragment {
 
         TextView addBtn = view.findViewById(R.id.addBTN);
         TextView cancelBtn = view.findViewById(R.id.cancelBTN);
-        EditText titleEditText = view.findViewById(R.id.titleEditText);
-        EditText notesEditText = view.findViewById(R.id.notesEditText);
+        titleEditText = view.findViewById(R.id.titleEditText);
+        notesEditText = view.findViewById(R.id.notesEditText);
         ImageView datebtn_createtask = view.findViewById(R.id.datebtn_createtask);
         TextView datetxt_createtask = view.findViewById(R.id.datetxt_createtask);
         ImageView alarmbtn_createtask = view.findViewById(R.id.alarmbtn_createtask);
@@ -259,7 +260,6 @@ public class CreateTask extends BottomSheetDialogFragment {
     }
 
     private void showDatePickerDialog(TextView datetxt_createtask) {
-        // Implement date picker dialog logic
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
                 // Opens the date picker with today's date selected.
@@ -317,15 +317,25 @@ public class CreateTask extends BottomSheetDialogFragment {
                 calendar.set(Calendar.MILLISECOND, 0);
             }
         });
+
     }
 
     private void setAlarm() {
+        String title = titleEditText.getText().toString();
+        String text = notesEditText.getText().toString();
+
         // Set alarm logic
         if (calendar != null) {
             alarmManager = (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(requireContext(), AlarmReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+            // Pass the title as an extra in the intent
+            intent.putExtra("title", title);
+            intent.putExtra("text", text);
+
+            // Use a unique request code for each alarm (here, taskId is used as the request code)
+            int requestCode = mainModel != null ? mainModel.getTaskId().hashCode() : title.hashCode();
+            pendingIntent = PendingIntent.getBroadcast(requireContext(), requestCode, intent, PendingIntent.FLAG_IMMUTABLE);            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             Toast.makeText(requireContext(), "Alarm Set", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(requireContext(), "Please select alarm time", Toast.LENGTH_SHORT).show();

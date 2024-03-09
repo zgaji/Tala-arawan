@@ -3,13 +3,13 @@ package com.example.test3;
 public class SmartListData {
 
     private String textName;
-    private String textCount;
+
     private Integer image;
     private int circleColor;
 
-    public SmartListData(String textName, String textCount, Integer image, int circleColor) {
+    public SmartListData(String textName, Integer image, int circleColor) {
         this.textName = textName;
-        this.textCount = textCount;
+
         this.image = image;
         this.circleColor = circleColor;
     }
@@ -23,13 +23,6 @@ public class SmartListData {
         this.textName = textName;
     }
 
-    public String getTextCount() {
-        return textCount;
-    }
-
-    public void setTextCount(String textDesc) {
-        this.textCount = textCount;
-    }
 
     public Integer getImage() {
         return image;

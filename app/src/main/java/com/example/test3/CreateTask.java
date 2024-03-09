@@ -72,7 +72,7 @@ public class CreateTask extends BottomSheetDialogFragment {
         String creationDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
         Calendar calendar = Calendar.getInstance();
         String lastOpenedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate, password);
+        MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate, password, "");
         databaseReference.child("tasks").child(taskId).setValue(newTask);
 
         //mainAdapter.insertItem(newTask);

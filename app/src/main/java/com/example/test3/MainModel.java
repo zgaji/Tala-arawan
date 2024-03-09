@@ -10,6 +10,7 @@ public class MainModel {
     String lastOpenedDate;
     String creationDate;
     String taskPassword;
+    String completedDate;
 
     MainModel() {
 
@@ -32,8 +33,16 @@ public class MainModel {
     }
 
 
+    public String getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(String completedDate) {
+        this.completedDate = completedDate;
+    }
+
     public MainModel(String taskTitle, String taskId, String alarm, String taskDesc, String date,
-                     String isComplete, String lastOpenedDate, String creationDate, String taskPassword) {
+                     String isComplete, String lastOpenedDate, String creationDate, String taskPassword, String completedDate) {
         this.taskTitle = taskTitle;
         this.taskId = taskId;
         this.alarm = alarm;
@@ -43,6 +52,7 @@ public class MainModel {
         this.lastOpenedDate = lastOpenedDate;
         this.creationDate = creationDate;
         this.taskPassword = taskPassword;
+        this.completedDate = completedDate;
     }
 
     public String getTaskTitle() {

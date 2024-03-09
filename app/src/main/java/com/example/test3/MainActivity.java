@@ -33,7 +33,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.datepicker.MaterialCalendar;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private SearchView searchView;
+    private DatabaseReference tasksRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,21 +92,27 @@ public class MainActivity extends AppCompatActivity {
         //SMART LIST
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
         smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        tasksRef = FirebaseDatabase.getInstance().getReference().child("tasks");
+        Query taskQuery = tasksRef.orderByChild("isComplete").equalTo("false");
+
         FirebaseRecyclerOptions<MainModel> options =
                 new FirebaseRecyclerOptions.Builder<MainModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("tasks"), MainModel.class)
+                        .setQuery(taskQuery, MainModel.class)
                         .build();
+
 
         mainAdapter = new MainAdapter(options, this);
         task_recycler_view.setAdapter(mainAdapter);
 
+
         // Sample data of SmartList
         List<SmartListData> dataList = new ArrayList<>();
-        dataList.add(new SmartListData("Today", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
-        dataList.add(new SmartListData("Completed", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
-        dataList.add(new SmartListData("Favorites", "3", R.drawable.ic_calendar, Color.parseColor("#afffca")));
+        dataList.add(new SmartListData("Today",  R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
+        dataList.add(new SmartListData("Completed", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
+        dataList.add(new SmartListData("Favorites", R.drawable.ic_calendar, Color.parseColor("#afffca")));
 
-        adapter = new SmartListAdapter(dataList);
+        adapter = new SmartListAdapter(dataList, this);
         smartListRecyclerView.setAdapter(adapter);
 
         //SWITCH MODE

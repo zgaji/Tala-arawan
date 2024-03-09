@@ -1,5 +1,7 @@
 package com.example.test3;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,11 @@ import java.util.List;
 public class SmartListAdapter extends RecyclerView.Adapter<SmartListAdapter.ViewHolder> {
 
     private List<SmartListData> items;
+    private Context context;
 
-    public SmartListAdapter(List<SmartListData> items) {
+    public SmartListAdapter(List<SmartListData> items, Context context) {
         this.items = items;
+        this.context = context;
     }
 
     @NonNull
@@ -32,13 +36,23 @@ public class SmartListAdapter extends RecyclerView.Adapter<SmartListAdapter.View
         final SmartListData dataList = items.get(position);
 
         holder.imageView.setImageResource(dataList.getImage());
-        holder.numberTextView.setText(String.valueOf(dataList.getTextCount()));
         holder.textTextView.setText(dataList.getTextName());
 
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.OVAL);
         drawable.setColor(dataList.getCircleColor());
         holder.circle.setBackground(drawable);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dataList.getTextName().equals("Completed")) {
+                    Intent intent = new Intent(context, CompletedHistory.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -50,13 +64,11 @@ public class SmartListAdapter extends RecyclerView.Adapter<SmartListAdapter.View
         public ImageView imageView;
         public TextView numberTextView;
         public TextView textTextView;
-
-        public View circle; // Add circle view
+        public View circle;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-            numberTextView = itemView.findViewById(R.id.numberTextView);
             textTextView = itemView.findViewById(R.id.textTextView);
             circle = itemView.findViewById(R.id.circle);
         }

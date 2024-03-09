@@ -22,6 +22,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,14 +31,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import android.text.InputType;
-import android.text.TextUtils;
-import android.widget.EditText;
-import android.widget.Toast;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.myViewHolder> {
     /**
@@ -80,95 +73,25 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference taskRef = getRef(position);
-
-                // Retrieve password from Firebase
-                taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            MainModel model = snapshot.getValue(MainModel.class);
-                            if (model != null) {
-                                String storedPassword = model.getTaskPassword();
-
-                                if (TextUtils.isEmpty(storedPassword)) {
-                                    // No password is set, open the CreateTask dialog directly
-                                    openCreateTaskDialog(model);
-                                } else {
-                                    // Display a password input dialog
-                                    showPasswordInputDialog(taskRef, storedPassword, position, model);
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle onCancelled
-                    }
-                });
-            }
-
-            private void showPasswordInputDialog(DatabaseReference taskRef,String storedPassword, int position, MainModel model){
-                // Show dialog to prompt for password
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Enter Password");
-
-                // Set up the input
-                final EditText input = new EditText(mContext);
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                builder.setView(input);
-
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String enteredPassword = input.getText().toString();
-
-                        // Check if the entered password matches the stored password
-                        if (enteredPassword.equals(storedPassword)) {
-                            // Password is correct, open the CreateTask dialog
-                            openCreateTaskDialog(model);
-
-                            // Update lastOpenedDate in Firebase
-                            taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            notifyDataSetChanged();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Handle onFailure
-                                        }
-                                    });
-                        } else {
-                            // Incorrect password, show a message
-                            Toast.makeText(mContext, "Incorrect password", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-            }
-
-            private void openCreateTaskDialog(MainModel model) {
-                // Your implementation to open the CreateTask dialog
-                // You can create an instance of CreateTask, set the data, and show the dialog
-                // Example:
                 CreateTask createTask = new CreateTask();
                 createTask.setData(model);
                 createTask.setAdapter(MainAdapter.this);
                 createTask.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "CreateTask");
+
+                DatabaseReference taskRef = getRef(position);
+                taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
             }
         });
 
@@ -206,11 +129,14 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                         } else if (itemId == R.id.menuComplete) {
                             // Complete action
                             DatabaseReference taskRef = getRef(position);
-                            taskRef.child("isComplete").setValue("true")
+                            String completionDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                            taskRef.child("isComplete").setValue("true");
+                            taskRef.child("completedDate").setValue(completionDate)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(mContext, "Task '" + model.getTaskTitle() + "' completed", Toast.LENGTH_SHORT).show();
+
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -219,6 +145,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                                             Toast.makeText(mContext, "Failed to mark task '" + model.getTaskTitle() + "' as completed", Toast.LENGTH_SHORT).show();
                                         }
                                     });
+
                             return true;
                         }
                         return false;
@@ -259,6 +186,9 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         dataList.add(0, newTask);
         notifyItemInserted(0);
     }
+
+
+
 
     @NonNull
     @Override

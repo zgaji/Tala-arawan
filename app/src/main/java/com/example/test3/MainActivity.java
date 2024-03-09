@@ -42,6 +42,7 @@ import android.app.TimePickerDialog;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,15 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView smartListRecyclerView;
     private SmartListAdapter adapter;
-    private MaterialTimePicker timePicker;
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
     RecyclerView task_recycler_view;
     MainAdapter mainAdapter;
     private SwitchCompat switchMode;
     private boolean nightMode;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView calendarviewbtn = findViewById(R.id.calendarviewbtn);
 
         task_recycler_view = (RecyclerView) findViewById(R.id.task_recycler_view);
-        task_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        task_recycler_view.setLayoutManager(layoutManager);
+
 
         //SMART LIST
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onStart() {
         mainAdapter.startListening();
@@ -174,5 +178,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         mainAdapter.stopListening();
         super.onStop();
+    }
+
+    public void addNewTask(MainModel newTask) {
+        mainAdapter.addToTop(newTask);
     }
 }

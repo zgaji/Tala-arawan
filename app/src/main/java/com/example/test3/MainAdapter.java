@@ -254,8 +254,11 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             holder.dayTextView.setText("");
         }
     }
-    
 
+    public void addToTop(MainModel newTask) {
+        dataList.add(0, newTask);
+        notifyItemInserted(0);
+    }
 
     @NonNull
     @Override

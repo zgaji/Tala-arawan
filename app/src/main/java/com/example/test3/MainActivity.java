@@ -30,6 +30,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.datepicker.MaterialCalendar;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.database.FirebaseDatabase;
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView smartListRecyclerView;
     private SmartListAdapter adapter;
     private MaterialTimePicker timePicker;
-    private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     RecyclerView task_recycler_view;
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         task_recycler_view = (RecyclerView) findViewById(R.id.task_recycler_view);
         task_recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
+        //SMART LIST
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
         smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         FirebaseRecyclerOptions<MainModel> options =
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //Adding note/reminder
         add_noteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 showCalendar.show(getSupportFragmentManager(), "ShowCalendar");
             }
         });
-
     }
 
     private void createNotificationChannel() {

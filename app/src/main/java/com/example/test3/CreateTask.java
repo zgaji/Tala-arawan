@@ -2,38 +2,25 @@ package com.example.test3;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -60,7 +47,7 @@ public class CreateTask extends BottomSheetDialogFragment {
     private PendingIntent pendingIntent;
     private EditText titleEditText;
     private EditText notesEditText;
-
+    private String password;
 
 
     // Method to set data from MainAdapter
@@ -73,13 +60,19 @@ public class CreateTask extends BottomSheetDialogFragment {
         this.mainAdapter = adapter;
     }
 
+    // Method to set the password
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
     // Method to add data to Firebase
-    private void addDataToFirebase(String title, String notes, String date, String alarm) {
+    private void addDataToFirebase(String title, String notes, String date, String alarm, String password) {
         String taskId = databaseReference.push().getKey();
         String creationDate = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
         Calendar calendar = Calendar.getInstance();
         String lastOpenedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate);
+        MainModel newTask  = new MainModel(title, taskId, alarm, notes, date, "false", lastOpenedDate, creationDate, password);
         databaseReference.child("tasks").child(taskId).setValue(newTask);
 
         //mainAdapter.insertItem(newTask);
@@ -102,9 +95,12 @@ public class CreateTask extends BottomSheetDialogFragment {
         TextView alarmtxt_createtask = view.findViewById(R.id.alarmtxt_createtask);
         TextView setalarmbtn = view.findViewById(R.id.setalarmbtn);
         TextView cancelalarmbtn = view.findViewById(R.id.cancelalarmbtn);
+        ImageView lockbtn = view.findViewById(R.id.lockbtn);
+        EditText passwordEditText = view.findViewById(R.id.passwordEditText);
 
         addBtn.setEnabled(false); // Disable add button initially
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,19 +110,29 @@ public class CreateTask extends BottomSheetDialogFragment {
                     String notes = notesEditText.getText().toString();
                     String date = datetxt_createtask.getText().toString();
                     String alarm = alarmtxt_createtask.getText().toString();
+                    String password = passwordEditText.getText().toString();  // Get the password from the UI
 
                     if (mainModel != null) {
                         // Update existing data in Firebase
-                        mainModel.setTaskTitle(title);
-                        mainModel.setTaskDesc(notes);
-                        mainModel.setDate(date);
-                        mainModel.setAlarm(alarm);
-                        databaseReference.child("tasks").child(mainModel.getTaskId()).setValue(mainModel);
-                        Toast.makeText(requireContext(), "Task Updated", Toast.LENGTH_SHORT).show();
+                        String storedPassword = mainModel.getTaskPassword();
 
+
+                        if (!TextUtils.isEmpty(password) && !password.equals(storedPassword)) {
+                            Toast.makeText(requireContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                            return; // Do not proceed with the update
+                        }
+
+                            mainModel.setTaskTitle(title);
+                            mainModel.setTaskDesc(notes);
+                            mainModel.setDate(date);
+                            mainModel.setAlarm(alarm);
+                            mainModel.setTaskPassword(password); // Update the password
+
+                            databaseReference.child("tasks").child(mainModel.getTaskId()).setValue(mainModel);
+                            Toast.makeText(requireContext(), "Task Updated", Toast.LENGTH_SHORT).show();
                     } else {
                         // Add new data to Firebase
-                        addDataToFirebase(title, notes, date, alarm);
+                        addDataToFirebase(title, notes, date, alarm, password);
                         //mainAdapter.insertItem(mainModel);
                     }
 
@@ -156,6 +162,7 @@ public class CreateTask extends BottomSheetDialogFragment {
             titleEditText.requestFocus();
         }
 
+
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +183,13 @@ public class CreateTask extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 showTimePickerDialog(alarmtxt_createtask);
+            }
+        });
+
+        lockbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //setLock();
             }
         });
 

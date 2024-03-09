@@ -1,7 +1,15 @@
 package com.example.test3;
 
 public class MainModel {
-    String taskTitle, taskId, taskDesc, date, isComplete, alarm, lastOpenedDate, creationDate;
+    String taskTitle;
+    String taskId;
+    String taskDesc;
+    String date;
+    String isComplete;
+    String alarm;
+    String lastOpenedDate;
+    String creationDate;
+    String taskPassword;
 
     MainModel() {
 
@@ -24,9 +32,8 @@ public class MainModel {
     }
 
 
-
     public MainModel(String taskTitle, String taskId, String alarm, String taskDesc, String date,
-                     String isComplete, String lastOpenedDate, String creationDate) {
+                     String isComplete, String lastOpenedDate, String creationDate, String taskPassword) {
         this.taskTitle = taskTitle;
         this.taskId = taskId;
         this.alarm = alarm;
@@ -35,6 +42,7 @@ public class MainModel {
         this.isComplete = isComplete;
         this.lastOpenedDate = lastOpenedDate;
         this.creationDate = creationDate;
+        this.taskPassword = taskPassword;
     }
 
     public String getTaskTitle() {
@@ -84,4 +92,13 @@ public class MainModel {
     public void setAlarm(String alarm) {
         this.alarm = alarm;
     }
+
+    public String getTaskPassword() {
+        return taskPassword;
+    }
+
+    public void setTaskPassword(String taskPassword) {
+        this.taskPassword = taskPassword;
+    }
+
 }

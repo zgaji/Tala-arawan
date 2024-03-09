@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView add_noteBTN = findViewById(R.id.add_noteBTN);
         ImageView calendarviewbtn = findViewById(R.id.calendarviewbtn);
+
         task_recycler_view = (RecyclerView) findViewById(R.id.task_recycler_view);
         task_recycler_view.setLayoutManager(new LinearLayoutManager(this));
 

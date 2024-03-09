@@ -103,12 +103,12 @@
 
                     <!-- Icon -->
                     <ImageView
-                        android:id="@+id/deleteImageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_delete"
-                        app:tint="@color/hint"
-                        android:layout_alignParentEnd="true" />
+                        android:id="@+id/options"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/more"
+                        android:layout_alignParentEnd="true"
+                        app:tint="@color/malibu" />
                 </RelativeLayout>
 
                 <TextView

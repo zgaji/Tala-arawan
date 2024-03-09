@@ -119,7 +119,7 @@ public class CreateTask extends BottomSheetDialogFragment {
 
                         if (!TextUtils.isEmpty(password) && !password.equals(storedPassword)) {
                             Toast.makeText(requireContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
-                            return; // Do not proceed with the update
+                            return;
                         }
 
                             mainModel.setTaskTitle(title);

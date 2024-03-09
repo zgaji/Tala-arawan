@@ -68,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         // Sample data of SmartList
         List<SmartListData> dataList = new ArrayList<>();
         dataList.add(new SmartListData("Today", "1", R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
-        dataList.add(new SmartListData("Scheduled", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
+        dataList.add(new SmartListData("Completed", "2", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
         dataList.add(new SmartListData("Favorites", "3", R.drawable.ic_calendar, Color.parseColor("#afffca")));
 
         adapter = new SmartListAdapter(dataList);
@@ -145,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ShowCalendar showCalendar = new ShowCalendar();
+                //showCalendar.setTaskDates(mainAdapter.getTaskDates());
                 showCalendar.show(getSupportFragmentManager(), "ShowCalendar");
             }
         });

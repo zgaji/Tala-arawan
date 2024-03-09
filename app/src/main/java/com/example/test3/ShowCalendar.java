@@ -13,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.datepicker.MaterialCalendar;
 
 public class ShowCalendar extends BottomSheetDialogFragment {
 
-    @Nullable
+  @Nullable
   @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_show_calendar, container, false);
@@ -34,6 +33,4 @@ public class ShowCalendar extends BottomSheetDialogFragment {
 
       return view;
   }
-
-
 }

@@ -2,13 +2,12 @@ package com.example.test3;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +21,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,118 +72,81 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CreateTask createTask = new CreateTask();
+                createTask.setData(model);
+                createTask.setAdapter(MainAdapter.this);
+                createTask.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "CreateTask");
+
                 DatabaseReference taskRef = getRef(position);
-
-                // Retrieve password from Firebase
-                taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            MainModel model = snapshot.getValue(MainModel.class);
-                            if (model != null) {
-                                String storedPassword = model.getTaskPassword();
-
-                                if (TextUtils.isEmpty(storedPassword)) {
-                                    // No password is set, open the CreateTask dialog directly
-                                    openCreateTaskDialog(model);
-                                } else {
-                                    // Display a password input dialog
-                                    showPasswordInputDialog(taskRef, storedPassword, position, model);
-                                }
+                taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                notifyDataSetChanged();
                             }
-                        }
-                    }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle onCancelled
-                    }
-                });
+                            }
+                        });
             }
+        });
 
-            private void showPasswordInputDialog(DatabaseReference taskRef,String storedPassword, int position, MainModel model){
-                // Show dialog to prompt for password
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Enter Password");
 
-                // Set up the input
-                final EditText input = new EditText(mContext);
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                builder.setView(input);
+        holder.options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext, holder.options);
+                popupMenu.inflate(R.menu.options); // Assuming you have a menu XML file named options_menu
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String enteredPassword = input.getText().toString();
-
-                        // Check if the entered password matches the stored password
-                        if (enteredPassword.equals(storedPassword)) {
-                            // Password is correct, open the CreateTask dialog
-                            openCreateTaskDialog(model);
-
-                            // Update lastOpenedDate in Firebase
-                            taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int itemId = item.getItemId();
+                        if (itemId == R.id.menuDelete) {
+                            // Delete action
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                            builder.setTitle("Delete Task");
+                            builder.setMessage("Are you sure you want to delete this task?");
+                            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getRef(position).removeValue();
+                                    Toast.makeText(mContext, "Task '" + model.getTaskTitle() + "' deleted", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.show();
+                            return true;
+                        } else if (itemId == R.id.menuComplete) {
+                            // Complete action
+                            DatabaseReference taskRef = getRef(position);
+                            taskRef.child("isComplete").setValue("true")
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            notifyDataSetChanged();
+                                            Toast.makeText(mContext, "Task '" + model.getTaskTitle() + "' completed", Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            // Handle onFailure
+                                            Toast.makeText(mContext, "Failed to mark task '" + model.getTaskTitle() + "' as completed", Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                        } else {
-                            // Incorrect password, show a message
-                            Toast.makeText(mContext, "Incorrect password", Toast.LENGTH_SHORT).show();
+                            return true;
                         }
+                        return false;
                     }
                 });
-
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-            }
-
-            private void openCreateTaskDialog(MainModel model) {
-                // Your implementation to open the CreateTask dialog
-                // You can create an instance of CreateTask, set the data, and show the dialog
-                // Example:
-                CreateTask createTask = new CreateTask();
-                createTask.setData(model);
-                createTask.setAdapter(MainAdapter.this);
-                createTask.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "CreateTask");
-            }
-        });
-
-
-        holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Delete Task");
-                builder.setMessage("Are you sure you want to delete this task?");
-                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getRef(position).removeValue();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
+                popupMenu.show();
             }
         });
 
@@ -229,7 +188,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
 
     class myViewHolder extends RecyclerView.ViewHolder{
         TextView taskTitle, taskId, taskDesc, dateCreated, isComplete, alarm, weekdayTextView, dayTextView, monthTextView;
-        ImageView deleteImageView;
+        ImageView options;
         CardView cardView;
 
         public myViewHolder(@NonNull View itemView) {
@@ -241,7 +200,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             dayTextView = (TextView) itemView.findViewById(R.id.dayTextView);
             monthTextView = (TextView) itemView.findViewById(R.id.monthTextView);
             cardView = itemView.findViewById(R.id.cardView);
-            deleteImageView = itemView.findViewById(R.id.deleteImageView);
+            options = itemView.findViewById(R.id.options);
         }
     }
 }

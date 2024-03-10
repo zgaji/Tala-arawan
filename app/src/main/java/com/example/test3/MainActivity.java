@@ -59,23 +59,6 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
         task_recycler_view.setLayoutManager(layoutManager);
 
-        EditText searchEditText = findViewById(R.id.search);
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mainAdapter.filter(s.toString()); // Call filter method with search query
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-
         //SMART LIST
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
         smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -87,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 new FirebaseRecyclerOptions.Builder<MainModel>()
                         .setQuery(taskQuery, MainModel.class)
                         .build();
-
 
         mainAdapter = new MainAdapter(options, this);
         task_recycler_view.setAdapter(mainAdapter);

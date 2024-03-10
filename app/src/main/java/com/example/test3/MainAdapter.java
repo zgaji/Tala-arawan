@@ -50,17 +50,12 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
     private List<MainModel> dataList;
     private FirebaseRecyclerOptions<MainModel> mSnapshots;
 
-    private List<MainModel> filteredList;
     public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options, Context context) {
         super(options);
         this.mContext = context;
         this.dataList = new ArrayList<>();
     }
 
-    public void setFilteredList(List<MainModel> filteredList) {
-        this.filteredList = filteredList;
-        notifyDataSetChanged(); // Notify adapter when the filtered list changes
-    }
 
     public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options) {
         super(options);
@@ -275,21 +270,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             holder.dayTextView.setText("");
         }
 
-    }
-    public void filter(String query) {
-        List<MainModel> tempList = new ArrayList<>();
-        if (query.isEmpty()) {
-            tempList.addAll(dataList); // If query is empty, show all data
-        } else {
-            for (MainModel model : dataList) {
-                // Add model to tempList if it matches the search query
-                if (model.getTaskTitle().toLowerCase().contains(query.toLowerCase()) ||
-                        model.getTaskDesc().toLowerCase().contains(query.toLowerCase())) {
-                    tempList.add(model);
-                }
-            }
-        }
-        setFilteredList(tempList); // Set filtered list to adapter
     }
 
     public void addToTop(MainModel newTask) {

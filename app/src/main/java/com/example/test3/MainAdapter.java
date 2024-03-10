@@ -187,18 +187,17 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                     public boolean onMenuItemClick(MenuItem item) {
                         int itemId = item.getItemId();
                         if (itemId == R.id.menuDelete) {
-                            // Delete action
-                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                            builder.setTitle("Delete Task");
-                            builder.setMessage("Are you sure you want to delete this task?");
-                            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getRef(position).removeValue();
-                                    Toast.makeText(mContext, "Task '" + model.getTaskTitle() + "' deleted", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext,R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
+                                    .setTitle("Delete Task")
+                                    .setMessage("Are you sure you want to delete this task?")
+                                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getRef(position).removeValue();
+                                        Toast.makeText(mContext, "Task '" + model.getTaskTitle() + "' deleted", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();

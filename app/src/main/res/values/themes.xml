@@ -48,16 +48,17 @@
     <style name="DatePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="colorPrimary">@color/t_white</item>//taas na bg
+        <item name="colorOnPrimary">@color/purple</item>//font
+        <item name="colorSurface">@color/t_white</item>//baba bg
     </style>
     <!---->
 
     <!-- Time Picker -->
     <style name="TimePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
         <item name="colorPrimary">@color/melrose</item>
-        <item name="colorOnSurface">@color/martinique</item>
-        <item name="colorOnPrimary">@color/martinique</item>
-        <item name="keyboardIcon">@color/purple</item>
-        <item name="clockIcon">@color/purple</item>
+        <item name="colorOnPrimary">@color/t_white</item>
+        <item name="colorSurface">@color/t_white</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>

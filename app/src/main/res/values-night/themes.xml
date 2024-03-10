@@ -40,6 +40,8 @@
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="android:background">@color/martinique</item>
         <item name="android:textColorPrimary">@color/purple</item>
+        <item name="colorPrimary">@color/purple</item>
+
     </style>
     <!---->
 
@@ -47,11 +49,17 @@
     <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="colorPrimary">@color/martinique</item>//taas na bg
+        <item name="colorOnPrimary">@color/purple</item>//font
+        <item name="colorSurface">@color/martin</item>//baba bg
     </style>
     <!---->
 
     <!-- Time Picker -->
-    <style name="TimePickerTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
+    <style name="TimePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/melrose</item>
+        <item name="colorOnPrimary">@color/martin</item>
+        <item name="colorSurface">@color/martin</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>

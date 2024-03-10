@@ -94,7 +94,6 @@ public class CreateTask extends BottomSheetDialogFragment {
         ImageView alarmbtn_createtask = view.findViewById(R.id.alarmbtn_createtask);
         TextView alarmtxt_createtask = view.findViewById(R.id.alarmtxt_createtask);
         TextView setalarmbtn = view.findViewById(R.id.setalarmbtn);
-        TextView cancelalarmbtn = view.findViewById(R.id.cancelalarmbtn);
         ImageView lockbtn = view.findViewById(R.id.lockbtn);
         EditText passwordEditText = view.findViewById(R.id.passwordEditText);
 
@@ -197,13 +196,6 @@ public class CreateTask extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 setAlarm();
-            }
-        });
-
-        cancelalarmbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelAlarm();
             }
         });
 
@@ -363,16 +355,6 @@ public class CreateTask extends BottomSheetDialogFragment {
             Toast.makeText(requireContext(), "Alarm Set", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(requireContext(), "Please select alarm time", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void cancelAlarm() {
-        // Cancel alarm logic
-        if (pendingIntent != null && alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(requireContext(), "Alarm Cancelled", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(requireContext(), "No alarm to cancel", Toast.LENGTH_SHORT).show();
         }
     }
 }

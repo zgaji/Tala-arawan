@@ -50,10 +50,16 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
     private List<MainModel> dataList;
     private FirebaseRecyclerOptions<MainModel> mSnapshots;
 
+    private List<MainModel> filteredList;
     public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options, Context context) {
         super(options);
         this.mContext = context;
         this.dataList = new ArrayList<>();
+    }
+
+    public void setFilteredList(List<MainModel> filteredList) {
+        this.filteredList = filteredList;
+        notifyDataSetChanged(); // Notify adapter when the filtered list changes
     }
 
     public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options) {
@@ -70,18 +76,26 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.weekdayTextView.setText(model.getLastOpenedDate());
         holder.dayTextView.setText(model.getLastOpenedDate());
 
-        String taskDescription = model.getTaskDesc();
-        if (taskDescription.length() > 20) {
-            taskDescription = taskDescription.substring(0, 20) + "...";
-        }
-        holder.taskDesc.setText(taskDescription);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference taskRef = getRef(position);
 
-                // Retrieve password from Firebase
+                taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+
                 taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,7 +117,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle onCancelled
                     }
                 });
             }
@@ -133,10 +146,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                         String enteredPassword = passEditText.getText().toString();
 
                         if (enteredPassword.equals(storedPassword)) {
-                            // Password is correct, open the CreateTask dialog
                             openCreateTaskDialog(model);
 
-                            // Update lastOpenedDate in Firebase
                             taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -160,11 +171,11 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 });
             }
 
-
             private void openCreateTaskDialog(MainModel model) {
                 CreateTask createTask = new CreateTask();
                 createTask.setData(model);
                 createTask.setAdapter(MainAdapter.this);
+
                 createTask.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "CreateTask");
             }
         });
@@ -174,7 +185,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             @Override
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(mContext, holder.options);
-                popupMenu.inflate(R.menu.options); // Assuming you have a menu XML file named options_menu
+                popupMenu.inflate(R.menu.options);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
                     @Override
@@ -229,6 +240,15 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             }
         });
 
+        if (TextUtils.isEmpty(model.getTaskPassword())) {
+            String taskDescription = model.getTaskDesc();
+            if (taskDescription.length() > 20) {
+                taskDescription = taskDescription.substring(0, 20) + "...";
+            }
+            holder.taskDesc.setText(taskDescription);
+        } else {
+            holder.taskDesc.setText("Locked");
+        }
 
         String lastOpenedDate = model.getLastOpenedDate();
         if (lastOpenedDate != null && !lastOpenedDate.isEmpty()) {
@@ -254,15 +274,28 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             holder.weekdayTextView.setText("");
             holder.dayTextView.setText("");
         }
+
+    }
+    public void filter(String query) {
+        List<MainModel> tempList = new ArrayList<>();
+        if (query.isEmpty()) {
+            tempList.addAll(dataList); // If query is empty, show all data
+        } else {
+            for (MainModel model : dataList) {
+                // Add model to tempList if it matches the search query
+                if (model.getTaskTitle().toLowerCase().contains(query.toLowerCase()) ||
+                        model.getTaskDesc().toLowerCase().contains(query.toLowerCase())) {
+                    tempList.add(model);
+                }
+            }
+        }
+        setFilteredList(tempList); // Set filtered list to adapter
     }
 
     public void addToTop(MainModel newTask) {
         dataList.add(0, newTask);
         notifyItemInserted(0);
     }
-
-
-
 
     @NonNull
     @Override

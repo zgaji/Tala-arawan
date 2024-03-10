@@ -210,7 +210,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@id/setalarmbtn"
                         android:gravity="center|center_vertical"
-                        android:text="Don't Send Notifications"
+                        android:text="Don't Send Notification"
                         android:textColor="@color/malibu"
                         android:textSize="14dp"
                         android:textStyle="bold" />

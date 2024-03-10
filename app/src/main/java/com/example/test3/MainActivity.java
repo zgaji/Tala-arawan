@@ -59,10 +59,6 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
         task_recycler_view.setLayoutManager(layoutManager);
 
-        //SMART LIST
-        smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
-        smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
         tasksRef = FirebaseDatabase.getInstance().getReference().child("tasks");
         Query taskQuery = tasksRef.orderByChild("isComplete").equalTo("false");
 
@@ -74,12 +70,11 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(options, this);
         task_recycler_view.setAdapter(mainAdapter);
 
-
-        // Sample data of SmartList
+        //SMART LIST
+        smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);
+        smartListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         List<SmartListData> dataList = new ArrayList<>();
-        dataList.add(new SmartListData("Today",  R.drawable.ic_calendar, Color.parseColor("#a6d3f2")));
-        dataList.add(new SmartListData("Completed", R.drawable.ic_calendar, Color.parseColor("#fcc7e1")));
-        dataList.add(new SmartListData("Favorites", R.drawable.ic_calendar, Color.parseColor("#afffca")));
+        dataList.add(new SmartListData("Completed", R.drawable.ic_completedsmartlist, Color.parseColor("#fcc7e1")));
 
         adapter = new SmartListAdapter(dataList, this);
         smartListRecyclerView.setAdapter(adapter);

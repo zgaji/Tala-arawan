@@ -26,25 +26,44 @@
     <style name="datecolor"><item name="android:textColor">@color/malibu</item></style>
     <style name="monthcolor"><item name="android:textColor">@color/mmalibu</item></style>
 
-    <!-- Alert Dialog -->
-    <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-    </style>
-
     <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/purple</item>
-   </style>
+    </style>
 
     <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/purple</item>
     </style>
+
+    <!-- Alert Dialog -->
+    <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:background">@color/martinique</item>
+        <item name="android:textColorPrimary">@color/purple</item>
+    </style>
     <!---->
 
-    <style name="CustomMaterialDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <!-- Style for the buttons -->
-        <item name="materialButtonStyle">@style/CustomMaterialButton</item>
+    <!-- Date Picker -->
+    <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
+    <!---->
+
+    <!-- Time Picker -->
+    <style name="TimePickerTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+    <!---->
+
+    <!-- Menu -->
+    <style name="PopupMenuStyle" parent="@style/Base.Widget.MaterialComponents.PopupMenu.ListPopupWindow">
+        <item name="android:popupBackground">@color/t_white</item>
+    </style>
+    <!---->
+
+
 
     <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <!-- Style for the buttons -->

@@ -285,9 +285,8 @@ public class CreateTask extends BottomSheetDialogFragment {
     private void showDatePickerDialog(TextView datetxt_createtask) {
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
-                // Opens the date picker with today's date selected.
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setTheme(R.style.CustomMaterialDatePickerTheme)
+                .setTheme(R.style.DatePickerTheme)
                 .build();
 
         datePicker.addOnPositiveButtonClickListener(selection -> {
@@ -317,6 +316,7 @@ public class CreateTask extends BottomSheetDialogFragment {
                 .setTimeFormat(TimeFormat.CLOCK_12H)
                 .setHour(12)
                 .setMinute(0)
+                .setTheme(R.style.TimePickerTheme)
                 .setTitleText("Select Alarm Time")
                 .build();
 

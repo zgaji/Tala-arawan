@@ -33,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .bigText(text);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "tala")
-                .setSmallIcon(R.drawable.ic_notif)
+                .setSmallIcon(R.drawable.ic_notifs)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setStyle(bigTextStyle)

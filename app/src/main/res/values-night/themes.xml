@@ -13,10 +13,8 @@
 
         <item name="colorTertiary">@color/bg</item>
         <item name="colorOnTertiary">@color/t_white</item>
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-    </style>
 
+    </style>
 
     <style name="background"><item name="android:background">@color/martinique</item></style>
     <style name="notesbg"><item name="android:background">@color/martin</item></style>
@@ -28,6 +26,20 @@
     <style name="datecolor"><item name="android:textColor">@color/malibu</item></style>
     <style name="monthcolor"><item name="android:textColor">@color/mmalibu</item></style>
 
+    <!-- Alert Dialog -->
+    <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/purple</item>
+   </style>
+
+    <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/purple</item>
+    </style>
+    <!---->
 
     <style name="CustomMaterialDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <!-- Style for the buttons -->

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter password"
+        app:boxStrokeColor="@color/melrose"
+        app:boxStrokeErrorColor="@color/red"
+        app:boxStrokeWidth="1dp"
+        android:enabled="true"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/ic_error"
+        app:errorIconTint="@color/red"
+        android:layout_marginStart="24sp"
+        android:layout_marginEnd="24sp"
+        app:startIconDrawable="@drawable/ic_lock"
+        app:startIconTint="@color/melrose"
+        app:endIconTint="@color/cornflowerblue"
+        app:endIconMode="password_toggle"
+        app:hintTextColor="@color/purple"
+        android:textColorHint="@color/purple">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/purple"
+            android:inputType="textPassword"
+            android:id="@+id/passEditText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</RelativeLayout>

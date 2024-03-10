@@ -2,10 +2,12 @@ package com.example.test3;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -21,8 +23,12 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,25 +79,93 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseReference taskRef = getRef(position);
+
+                // Retrieve password from Firebase
+                taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            MainModel model = snapshot.getValue(MainModel.class);
+                            if (model != null) {
+                                String storedPassword = model.getTaskPassword();
+
+                                if (TextUtils.isEmpty(storedPassword)) {
+                                    // No password is set, open the CreateTask dialog directly
+                                    openCreateTaskDialog(model);
+                                } else {
+                                    // Display a password input dialog
+                                    showPasswordInputDialog(taskRef, storedPassword, position, model);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle onCancelled
+                    }
+                });
+            }
+
+            private void showPasswordInputDialog(DatabaseReference taskRef, String storedPassword, int position, MainModel model) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.inputdialog_layout, null);
+
+                EditText passEditText = view.findViewById(R.id.passEditText);
+                AlertDialog alertDialog = new MaterialAlertDialogBuilder(mContext, R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
+                        .setTitle("Lock")
+                        .setView(view)
+                        .setPositiveButton("OK", null)
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+
+                alertDialog.show();
+
+                // Override the positive button to handle custom logic
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String enteredPassword = passEditText.getText().toString();
+
+                        if (enteredPassword.equals(storedPassword)) {
+                            // Password is correct, open the CreateTask dialog
+                            openCreateTaskDialog(model);
+
+                            // Update lastOpenedDate in Firebase
+                            taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            notifyDataSetChanged();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Handle onFailure
+                                        }
+                                    });
+
+                            alertDialog.dismiss(); // Dismiss the dialog after successful password entry
+                        } else {
+                            // Incorrect password, show a message
+                            Toast.makeText(mContext, "Incorrect password", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+
+            private void openCreateTaskDialog(MainModel model) {
                 CreateTask createTask = new CreateTask();
                 createTask.setData(model);
                 createTask.setAdapter(MainAdapter.this);
                 createTask.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "CreateTask");
-
-                DatabaseReference taskRef = getRef(position);
-                taskRef.child("lastOpenedDate").setValue(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                notifyDataSetChanged();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
-                        });
             }
         });
 

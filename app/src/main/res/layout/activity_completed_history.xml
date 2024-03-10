@@ -4,20 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CompletedHistory">
+    tools:context=".CompletedHistory"
+    style="@style/background">
 
     <!-- "Go back" button -->
     <TextView
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go back"
-        android:textSize="14sp"
-        android:textColor="@color/malibu"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
         android:drawableStart="@drawable/ic_arrow_left"
-        android:drawableTint="@color/malibu"
         android:drawablePadding="4dp"
+        android:drawableTint="@color/malibu"
         android:padding="8dp"
+        android:text="Go back"
+        android:textColor="@color/malibu"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

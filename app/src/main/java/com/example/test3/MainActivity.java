@@ -2,49 +2,21 @@ package com.example.test3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.ContentInfo;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.test3.databinding.ActivityMainBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.datepicker.MaterialCalendar;
-import com.google.android.material.timepicker.MaterialTimePicker;
-import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,9 +25,6 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
-import android.widget.Switch;
-import android.widget.CompoundButton;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean nightMode;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private SearchView searchView;
     private DatabaseReference tasksRef;
 
 
@@ -87,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         task_recycler_view.setLayoutManager(layoutManager);
-
 
         //SMART LIST
         smartListRecyclerView = findViewById(R.id.smartlist_recycler_view);

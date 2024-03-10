@@ -122,8 +122,10 @@
                     <ImageView
                         android:id="@+id/datebtn_createtask"
                         android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        app:srcCompat="@drawable/ic_calendar" />
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_calendar"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:id="@+id/datetxt_createtask"
@@ -136,8 +138,7 @@
                         android:layout_toEndOf="@id/datebtn_createtask"
                         android:gravity="start|center_vertical"
                         android:hint="   Click icon to set Due Date"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </RelativeLayout>
 
                 <View
@@ -155,8 +156,10 @@
                     <ImageView
                         android:id="@+id/alarmbtn_createtask"
                         android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        app:srcCompat="@drawable/ic_alarm" />
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_alarm"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp" />
 
                     <TextView
                         android:id="@+id/alarmtxt_createtask"
@@ -168,9 +171,8 @@
                         android:layout_marginTop="0dp"
                         android:layout_toEndOf="@id/alarmbtn_createtask"
                         android:gravity="start|center_vertical"
-                        android:hint="   Click icon to set an Alarm"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:hint="   Click icon to set Deadline"
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
 
@@ -188,29 +190,38 @@
 
                     <TextView
                         android:id="@+id/setalarmbtn"
-                        android:layout_width="140dp"
+                        android:layout_width="150dp"
                         android:layout_height="40dp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="13dp"
-                        android:layout_toEndOf="@id/lockbtn"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="5dp"
                         android:gravity="center|center_vertical"
-                        android:text="Set Alarm"
+                        android:text="Send Notification"
                         android:textColor="@color/melrose"
-                        android:textSize="16dp"
+                        android:textSize="14dp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/cancelalarmbtn"
-                        android:layout_width="140dp"
+                        android:layout_width="180dp"
                         android:layout_height="40dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@id/setalarmbtn"
                         android:gravity="center|center_vertical"
-                        android:text="Cancel Alarm"
+                        android:text="Don't Send Notifications"
                         android:textColor="@color/malibu"
-                        android:textSize="16dp"
+                        android:textSize="14dp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/darker_gray" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -221,8 +232,10 @@
                     <ImageView
                         android:id="@+id/lockbtn"
                         android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        app:srcCompat="@drawable/ic_lock" />
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_lock"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
 
                     <EditText
                         android:id="@+id/passwordEditText"
@@ -235,9 +248,8 @@
                         android:layout_toEndOf="@id/lockbtn"
                         android:gravity="start|center_vertical"
                         android:hint="   Enter Password"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword"
+                        android:textSize="16sp" />
 
 
 

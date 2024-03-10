@@ -27,7 +27,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
@@ -70,7 +69,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         holder.monthTextView.setText(model.getLastOpenedDate());
         holder.weekdayTextView.setText(model.getLastOpenedDate());
         holder.dayTextView.setText(model.getLastOpenedDate());
-
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
